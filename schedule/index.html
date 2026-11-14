@@ -30,7 +30,7 @@ button { font: inherit; }
 .nav .tix { border: 1.5px solid var(--plum); border-radius: 999px; padding: 8px 16px; }
 
 /* Hero */
-.hero { position: relative; min-height: 700px; background: url("assets/hero-resonance.jpg") center 35% / cover; text-align: center; padding: 120px 20px 290px; }
+.hero { position: relative; min-height: 700px; background: url("assets/hero-cosmic-egg.jpg") center 35% / cover; text-align: center; padding: 120px 20px 290px; }
 .hero .lotus { width: 120px; margin: 0 auto 6px; display: block; }
 .hero h1 { font-family: var(--brand); font-weight: 400; font-size: clamp(44px, 8vw, 96px); line-height: 1; margin: 0; letter-spacing: .01em; }
 .hero .meta { margin: 14px 0 0; font-size: 14px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-ink); }
@@ -252,7 +252,7 @@ function paintAura(yN, H) {
     ['18%', yN + 420, 640, 'rgba(120,88,170,.42)'], ['84%', yN + 760, 560, 'rgba(78,140,150,.28)'],
     ['58%', H - 240, 760, 'rgba(232,140,80,.32)'] ];
   let html = orbs.map(([x, y, d, c]) => `<div class="orb" style="left:${x};top:${y}px;width:${d*s}px;height:${d*s}px;background:radial-gradient(circle, ${c} 0%, transparent 66%)"></div>`).join('');
-  // the Resonance egg returns at sunset: three faint iridescent halos around the 5pm moment
+  // the Cosmic Egg returns at sunset: three faint iridescent halos around the 5pm moment
   const hw = 820 * s, hh = 900 * s;
   html += `<svg class="halos" style="top:${yN - 250}px;width:${hw}px;height:${hh}px" viewBox="0 0 820 900"><defs><linearGradient id="iri" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#92D9EC"/><stop offset=".35" stop-color="#C6B7E8"/><stop offset=".65" stop-color="#F4B4D3"/><stop offset="1" stop-color="#FFD7A0"/></linearGradient></defs>
     <ellipse cx="410" cy="470" rx="170" ry="220" fill="none" stroke="url(#iri)" stroke-width="3" opacity=".55"/>
