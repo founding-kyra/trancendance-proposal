@@ -170,6 +170,19 @@ h3 { font-size: clamp(19px, 2.2vw, 24px); line-height: 1.25; }
   .detail { grid-template-columns: 1fr; }
 }
 
+/* First look */
+.look { display: grid; grid-template-columns: 1fr 220px; gap: 28px; align-items: end; }
+.look a { display: block; text-decoration: none; }
+.look-desk { border-radius: 16px; overflow: hidden; border: 1.5px solid var(--ink); box-shadow: 8px 8px 0 var(--accent); background: var(--surface); transition: transform .2s; }
+.look-desk .bar { display: flex; gap: 7px; padding: 10px 14px; background: var(--surface); border-bottom: 1px solid var(--line); }
+.look-desk .bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+.look-phone { border-radius: 30px; overflow: hidden; border: 6px solid var(--ink); box-shadow: 8px 8px 0 var(--accent); transition: transform .2s; }
+.look a:hover { transform: translateY(-4px); }
+.look-cta { display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: center; margin-top: 30px; }
+.look-cta span { font-size: 16px; color: var(--ink-soft); }
+.look-cta .pill { text-decoration: none; }
+@media (max-width: 820px) { .look { grid-template-columns: 1fr; } .look-phone { width: 62%; margin: 0 auto; } }
+
 /* Wryn's part */
 .checks { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
 .check { background: var(--surface); border-radius: 20px; padding: 22px 18px; }
@@ -304,7 +317,7 @@ footer img { height: 54px; width: auto; margin: 0 auto; }
 </head>
 <body>
 <header class="top"><div class="wrap">
-  <nav aria-label="Sections"><a href="#why">Why</a><a href="#get">What you get</a><a href="#timeline">Timeline</a><a href="#you">Your part</a><a href="#value">Value</a><a href="#deal">The deal</a></nav>
+  <nav aria-label="Sections"><a href="#why">Why</a><a href="#get">What you get</a><a href="#preview">Preview</a><a href="#timeline">Timeline</a><a href="#you">Your part</a><a href="#value">Value</a><a href="#deal">The deal</a></nav>
   <button class="theme" id="theme" aria-label="Switch light or dark mode">◐</button>
   <img class="klogo light" src="img/kyra-logo.png" alt="Kyra Aulani"><img class="klogo dark" src="img/kyra-logo-cream.png" alt="Kyra Aulani">
 </div></header>
@@ -412,6 +425,16 @@ footer img { height: 54px; width: auto; margin: 0 auto; }
       <div class="vcard"><span class="label">1 hero video</span><p>The opening film on the new site, reused for email and the box office.</p></div>
     </div>
   </div>
+</div></section>
+
+<section id="preview"><div class="wrap">
+  <h2>A first look</h2>
+  <p class="lead">The new schedule page: the 2.0 aura, misty Appalachian ridges, and a sky that moves from morning to the fire circle. Built with Saturday's 2026 program.</p>
+  <div class="look">
+    <a class="look-desk" href="schedule/index.html" target="_blank" rel="noopener"><span class="bar"><i></i><i></i><i></i></span><img src="img/schedule-desktop.jpg" alt="The schedule page on desktop"></a>
+    <a class="look-phone" href="schedule/index.html" target="_blank" rel="noopener"><img src="img/schedule-phone.jpg" alt="The schedule page on a phone"></a>
+  </div>
+  <div class="look-cta"><a class="pill solid" href="schedule/index.html" target="_blank" rel="noopener">Open the live schedule →</a><span>Tap the days, filters and sessions. Try "Preview live view".</span></div>
 </div></section>
 
 <section id="timeline"><div class="wrap">

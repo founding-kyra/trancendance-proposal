@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Schedule · Trancendance 2.0 (mock)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+@font-face { font-family: "Brand"; src: url("assets/Brand-Regular.ttf") format("truetype"); font-display: swap; }
+:root {
+  --plum: #3A2747; --deep: #2A1D35; --night: #21172B; --gold: #9A6E2A; --gold-ink: #5C4420; --gold-lite: #E4C27E;
+  --water: #1E4A50; --cream: #FAF4EC; --mist: #F1E4DE; --soft-night: #CDBBD8;
+  --brand: "Brand", Georgia, serif; --ui: "Inter", system-ui, -apple-system, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font: 16px/1.5 var(--ui); color: var(--plum); background: var(--night); -webkit-font-smoothing: antialiased; }
+button { font: inherit; }
+/* Brand has wordmark ligatures; keep them for TRANCENDANCE only, so names stay readable */
+.name, .days button, .block .bh b, .foot p, .dayname { text-transform: uppercase; font-variant-ligatures: none; font-feature-settings: "liga" 0, "clig" 0, "dlig" 0, "calt" 0, "salt" 0; letter-spacing: .02em; }
+
+/* Nav */
+.nav { position: absolute; top: 0; left: 0; right: 0; z-index: 5; display: flex; align-items: center; gap: 26px; padding: 18px 32px; }
+.nav img { height: 34px; }
+.nav a { color: var(--plum); text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.nav a.on { color: var(--gold); }
+.nav .links { display: flex; gap: 26px; margin-left: auto; }
+.nav .tix { border: 1.5px solid var(--plum); border-radius: 999px; padding: 8px 16px; }
+
+/* Hero */
+.hero { position: relative; min-height: 700px; background: url("assets/hero-resonance.jpg") center 35% / cover; text-align: center; padding: 120px 20px 290px; }
+.hero .lotus { width: 120px; margin: 0 auto 6px; display: block; }
+.hero h1 { font-family: var(--brand); font-weight: 400; font-size: clamp(44px, 8vw, 96px); line-height: 1; margin: 0; letter-spacing: .01em; }
+.hero .meta { margin: 14px 0 0; font-size: 14px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-ink); }
+.days { display: inline-flex; gap: 6px; margin-top: 30px; padding: 6px; border-radius: 999px; background: rgba(250,244,236,.55); backdrop-filter: blur(6px); }
+.days button { border: 0; background: none; color: var(--plum); padding: 10px 18px; border-radius: 999px; cursor: pointer; font-family: var(--brand); font-size: 20px; }
+.days button[aria-pressed="true"] { background: var(--plum); color: var(--cream); }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 16px; }
+.filters button { border: 1.5px solid rgba(58,39,71,.35); background: rgba(250,244,236,.35); color: var(--plum); border-radius: 999px; padding: 7px 14px; font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; }
+.filters button[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--cream); }
+.dayname { font-family: var(--brand); font-size: 26px; margin-top: 22px; color: var(--plum); }
+.note { display: none; margin: 14px auto 0; max-width: 420px; font-size: 14px; color: var(--plum); background: rgba(250,244,236,.7); border-radius: 12px; padding: 10px 14px; }
+.ridges { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: 300px; object-fit: cover; object-position: center bottom; display: block; pointer-events: none; }
+
+/* Timeline */
+.tl { position: relative; padding: 30px 20px 140px; }
+.cols { display: grid; grid-template-columns: 1fr 64px 1fr; max-width: 1060px; margin: 0 auto 10px; }
+.cols h2 { margin: 0; font: 600 13px var(--ui); letter-spacing: .16em; text-transform: uppercase; color: var(--gold-ink); }
+.cols h2:first-child { text-align: right; }
+.cols h2:last-child { grid-column: 3; }
+.line { position: absolute; top: 80px; bottom: 120px; left: 50%; width: 2px; transform: translateX(-50%); background: linear-gradient(var(--gold), var(--gold-lite)); opacity: .7; }
+.rows { position: relative; max-width: 1060px; margin: 0 auto; }
+.row { display: grid; grid-template-columns: 1fr 64px 1fr; align-items: start; min-height: 0; padding-bottom: 38px; transition: opacity .25s; }
+.row .dot { grid-column: 2; justify-self: center; margin-top: 8px; width: 13px; height: 13px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 5px rgba(154,110,42,.18); }
+.item { cursor: pointer; background: none; border: 0; padding: 0; color: inherit; text-align: inherit; }
+.item:focus-visible { outline: 2px solid var(--gold); outline-offset: 6px; border-radius: 6px; }
+.row.left .item { grid-column: 1; grid-row: 1; text-align: right; }
+.row.right .item { grid-column: 3; grid-row: 1; text-align: left; }
+.time { display: block; font-size: 13px; font-weight: 600; letter-spacing: .12em; color: var(--gold-ink); }
+.name { display: block; font-family: var(--brand); font-size: clamp(24px, 3vw, 34px); line-height: 1.12; margin-top: 2px; }
+.host { display: block; font-size: 15px; margin-top: 2px; opacity: .85; }
+.venue { display: inline-block; margin-top: 8px; font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; border: 1.2px solid currentColor; border-radius: 999px; padding: 3px 10px; opacity: .75; }
+.block { position: relative; z-index: 1; max-width: 860px; margin: 6px auto 34px; border-radius: 22px; padding: 18px 20px 20px; background: rgba(250,244,236,.55); backdrop-filter: blur(4px); border: 1px solid rgba(154,110,42,.35); text-align: center; transition: opacity .25s; }
+.block .bh { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-ink); }
+.block .bh b { font-family: var(--brand); font-weight: 400; font-size: 26px; letter-spacing: .02em; text-transform: none; color: var(--plum); display: block; margin: 4px 0 2px; }
+.opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 12px; }
+.opt { background: rgba(250,244,236,.75); border: 0; border-radius: 16px; padding: 14px; cursor: pointer; color: var(--plum); }
+.opt .name { font-size: 24px; }
+.night .time { color: var(--gold-lite); }
+.night .name, .night .host { color: var(--cream); }
+.night .venue { color: var(--soft-night); }
+.night .dot { background: var(--gold-lite); box-shadow: 0 0 0 5px rgba(228,194,126,.18), 0 0 18px rgba(228,194,126,.55); }
+.dim { opacity: .18; }
+/* a soft halo behind the words, so they hold up through the mid-tone sunset */
+.row:not(.night) .item { text-shadow: 0 0 14px rgba(250,244,236,.65), 0 0 2px rgba(250,244,236,.4); }
+.row.night .item { text-shadow: 0 1px 16px rgba(33,23,43,.7), 0 0 2px rgba(33,23,43,.4); }
+.row.night .venue { opacity: .9; }
+.now { position: absolute; left: 50%; transform: translate(-50%, -50%); z-index: 2; display: none; align-items: center; gap: 10px; pointer-events: none; }
+.now i { width: 22px; height: 22px; border-radius: 50%; background: var(--cream); box-shadow: 0 0 0 0 rgba(250,244,236,.7); animation: pulse 1.8s infinite; }
+.now span { position: absolute; left: 34px; white-space: nowrap; font-size: 12px; font-weight: 600; letter-spacing: .16em; color: var(--cream); }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(250,244,236,.7); } 100% { box-shadow: 0 0 0 18px rgba(250,244,236,0); } }
+.livebtn { display: block; margin: 0 auto 26px; border: 1.5px solid var(--plum); background: none; color: var(--plum); border-radius: 999px; padding: 8px 16px; font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
+
+/* Aura layer: soft light blooms, sunset halos, night stars, and the hero's grain carried down */
+.tl { overflow: hidden; }
+.aura { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.orb { position: absolute; border-radius: 50%; transform: translate(-50%, -50%); filter: blur(12px); animation: drift 18s ease-in-out infinite alternate; }
+.orb:nth-child(2n) { animation-duration: 23s; animation-direction: alternate-reverse; }
+@keyframes drift { from { translate: -24px 10px; } to { translate: 24px -14px; } }
+.halos { position: absolute; left: 50%; transform: translate(-50%, -50%); filter: blur(1.2px); }
+.star { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #FAF4EC; box-shadow: 0 0 6px rgba(250,244,236,.8); }
+.tl::after, .hero::after, .foot::after { content: ""; position: absolute; pointer-events: none; background: url("assets/grain.png"); mix-blend-mode: soft-light; }
+.tl::after { inset: 0; z-index: 1; opacity: .62; }
+.hero::after { display: none; }
+.foot::after { inset: 0; opacity: .35; }
+.livebtn, .cols, .line, .rows, .now { position: relative; z-index: 2; }
+.line { position: absolute; }
+.now { position: absolute; }
+.ridges { z-index: 0; }
+@media (prefers-reduced-motion: reduce) { .orb { animation: none; } }
+
+/* Footer */
+.foot { position: relative; min-height: 560px; background: linear-gradient(var(--night) 0%, rgba(33,23,43,.2) 40%, rgba(33,23,43,.7) 100%), url("assets/fire-circle.jpg") center 60% / cover; text-align: center; padding: 120px 20px 60px; color: var(--cream); display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
+.foot img { width: 90px; margin-bottom: 8px; }
+.foot p { font-family: var(--brand); font-size: 34px; margin: 0 0 20px; }
+.pill { display: inline-block; background: var(--cream); color: var(--plum); text-decoration: none; border-radius: 999px; padding: 13px 28px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; font-size: 14px; }
+.foot small { margin-top: 36px; opacity: .7; font-size: 12px; letter-spacing: .1em; }
+
+/* Detail drawer */
+.drawer { position: fixed; inset: 0; background: rgba(20,12,26,.55); display: none; align-items: flex-end; justify-content: center; z-index: 20; }
+.drawer.on { display: flex; }
+.card { background: var(--cream); color: var(--plum); width: min(560px, 100%); border-radius: 26px 26px 0 0; padding: 28px 26px 34px; }
+.card .name { font-size: 38px; }
+.card .x { float: right; border: 0; background: none; font-size: 28px; color: var(--plum); cursor: pointer; }
+.card .link { display: inline-block; margin-top: 18px; color: var(--water); font-weight: 600; text-decoration: none; }
+
+@media (max-width: 760px) {
+  .nav { padding: 14px 16px; } .nav .links a:not(.tix) { display: none; }
+  .hero { padding: 96px 16px 200px; min-height: 0; }
+  .hero .lotus { width: 92px; }
+  .days button { padding: 8px 12px; font-size: 17px; }
+  .ridges { height: 190px; }
+  .tl { padding: 24px 16px 120px; }
+  .cols { display: none; }
+  .line { left: 22px; transform: none; }
+  .row, .row.left, .row.right { grid-template-columns: 44px 1fr; min-height: 0; margin-bottom: 30px; }
+  .row .dot { grid-column: 1; justify-self: start; margin-left: 16px; }
+  .row.left .item, .row.right .item { grid-column: 2; text-align: left; }
+  .block { margin: 0 0 30px 44px; text-align: left; }
+  .now { left: 23px; transform: translate(-50%, -50%); }
+  .hero h1 { font-size: clamp(30px, 9.4vw, 44px); }
+  .hero .meta { font-size: 12px; letter-spacing: .12em; }
+  .opts { grid-template-columns: 1fr; }
+  .block .bh b { font-size: 21px; }
+  .opt { text-align: left; }
+  .block { padding: 16px; }
+  .opt .name { font-size: 21px; }
+  .name { font-size: 24px; }
+  .foot p { font-size: 24px; }
+  .foot { min-height: 460px; }
+}
+</style>
+</head>
+<body>
+<nav class="nav"><img src="assets/lotus-gold.png" alt="Trancendance"><div class="links"><a href="#">The Gathering</a><a href="#">Lineup</a><a href="#" class="on">Schedule</a><a href="#">Plan Your Visit</a><a href="#" class="tix">Tickets</a></div></nav>
+
+<header class="hero">
+  <img class="lotus" src="assets/lotus-gold.png" alt="">
+  <h1>TRANCENDANCE</h1>
+  <p class="meta">Schedule · August 2027 · Sacred Mountain Waters</p>
+  <div class="days" role="group" aria-label="Day"><button aria-pressed="false">Thu</button><button aria-pressed="false">Fri</button><button aria-pressed="true">Sat</button><button aria-pressed="false">Sun</button></div>
+  <div class="filters" role="group" aria-label="Filter"></div>
+  <p class="note" id="note"></p>
+  <img class="ridges" src="assets/ridges.png" alt="">
+</header>
+
+<main class="tl" id="tl">
+  <div class="aura" id="aura"></div>
+  <button class="livebtn" id="live" aria-pressed="false">Preview live view</button>
+  <div class="cols"><h2>Dance &amp; Music</h2><h2>Yoga &amp; Practice</h2></div>
+  <div class="line"></div>
+  <div class="rows" id="rows"></div>
+  <div class="now" id="now"><i></i><span>NOW</span></div>
+</main>
+
+<footer class="foot">
+  <img src="assets/lotus-cream.png" alt="">
+  <p>Dance until the fire burns low</p>
+  <a class="pill" href="#">Get Tickets</a>
+  <small>MOCK · SATURDAY 2026 PROGRAM SHOWN AS SAMPLE DATA</small>
+</footer>
+
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Session details"><div class="card" id="card"></div></div>
+
+<script>
+// Saturday, transcribed from the 2026 schedule poster
+const SAT = [
+  { t:'09:00', name:'Sound Healing & Yoga', host:'One Tone', venue:'Yoga Shala', side:'right', cat:['yoga','sound'] },
+  { t:'10:00', name:'Kundalini Yoga', host:'Wryn Magdalyn', venue:'Love Lodge', side:'right', cat:['yoga'] },
+  { t:'11:00', name:'Plant Walk', host:'Eric Joseph Lewis', venue:'Yurt Talks', side:'right', cat:['workshop'] },
+  { t:'11:30', name:'Ecstatic Dance Wave', host:'ShuShu', venue:'Dance Tent', side:'left', cat:['dance'] },
+  { t:'13:00', name:'Live Music', host:'Auruam', venue:'River Stage', side:'left', cat:['music'] },
+  { t:'14:00', block:'Workshop Block One', opts:[
+      { name:'Twerk Medicine', host:'Katie Scott', venue:'Dance Tent', cat:['dance','workshop'] },
+      { name:'Goddess Dance', host:'Katie Wells', venue:'Love Lodge', cat:['dance','workshop'] },
+      { name:'Contact Improv', host:"CJ O'Rielly", venue:'Yoga Shala', cat:['dance','workshop'] } ] },
+  { t:'15:30', block:'Workshop Block Two', opts:[
+      { name:'Inner Animal Flow', host:'J Miles & Tara Eschenroeder', venue:'Dance Tent', cat:['dance','workshop'] },
+      { name:'Yoga & Vocal Activation', host:'Paloma Devi', venue:'Love Lodge', cat:['yoga','workshop'] } ] },
+  { t:'17:00', name:'Live Looping Contact Jam', host:'Lillie & CJ', venue:'Love Lodge', side:'right', cat:['music','dance'] },
+  { t:'17:30', name:'Live Music', host:'Claraty', venue:'River Stage', side:'left', cat:['music'] },
+  { t:'19:00', name:'Live Music', host:'Medicine Woman', venue:'River Stage', side:'left', cat:['music'] },
+  { t:'20:30', name:'Ecstatic Dance', host:'Scott Houston & Maya Lemberg', venue:'Dance Tent', side:'left', cat:['dance'] },
+  { t:'22:00', name:'Drum & Dance', host:'HoloRhythm', venue:'Fire Circle', side:'right', cat:['fire','music','dance'] },
+  { t:'23:30', name:'Late Night Bass Set', host:'Claraty & Dobarae', venue:'Dance Tent', side:'left', cat:['dance','music'] },
+  { t:'00:00', name:'Sound Current', host:'Lillie', venue:'Love Lodge', side:'right', cat:['sound','music'] },
+];
+const FILTERS = [['all','All'],['dance','Dance'],['music','Music'],['yoga','Yoga'],['workshop','Workshops'],['sound','Sound'],['fire','Fire']];
+const NIGHT_FROM = '17:00';
+const fmt = t => { let [h,m] = t.split(':').map(Number); const ap = h >= 12 && h < 24 ? 'PM' : 'AM'; h = h % 12 || 12; return `${h}:${String(m).padStart(2,'0')} ${ap}`; };
+const isNight = t => t >= NIGHT_FROM || t < '05:00';
+const rows = document.getElementById('rows');
+
+function itemHTML(e) {
+  return `<span class="time">${fmt(e.t)}</span><span class="name">${e.name}</span><span class="host">w/ ${e.host}</span><span class="venue">${e.venue}</span>`;
+}
+function render() {
+  rows.innerHTML = '';
+  SAT.forEach((e, i) => {
+    if (e.block) {
+      const b = document.createElement('section'); b.className = 'block' + (isNight(e.t) ? ' night' : ''); b.dataset.cat = e.opts.flatMap(o => o.cat).join(' ');
+      b.innerHTML = `<div class="bh">${fmt(e.t)} · Choose one<b>${e.block}</b></div><div class="opts"></div>`;
+      e.opts.forEach(o => { const btn = document.createElement('button'); btn.className = 'opt'; btn.dataset.cat = o.cat.join(' ');
+        btn.innerHTML = `<span class="name">${o.name}</span><span class="host">w/ ${o.host}</span><span class="venue">${o.venue}</span>`;
+        btn.onclick = () => openCard({ ...o, t: e.t }); b.querySelector('.opts').appendChild(btn); });
+      rows.appendChild(b); return;
+    }
+    const r = document.createElement('div'); r.className = `row ${e.side}`; r.dataset.cat = e.cat.join(' '); r.dataset.t = e.t;
+    const it = document.createElement('button'); it.className = 'item'; it.innerHTML = itemHTML(e); it.onclick = () => openCard(e);
+    const dot = document.createElement('span'); dot.className = 'dot';
+    r.append(it, dot); rows.appendChild(r);
+  });
+  paintSky();
+}
+
+// The sky follows the clock: morning mist at the top, sunset at 5pm, night by the fire circle
+function paintSky() {
+  const tl = document.getElementById('tl'), top = tl.getBoundingClientRect().top + scrollY;
+  const first = [...rows.querySelectorAll('.row')].find(r => r.dataset.t >= NIGHT_FROM); if (!first) return;
+  const y = first.getBoundingClientRect().top + scrollY - top, H = tl.offsetHeight;
+  // sunset spread across the whole afternoon and evening instead of one band
+  const stops = [[0,'#F1E4DE'],[y*.3,'#F6DCC8'],[y*.55,'#F4CCAA'],[y*.72,'#EFBCAE'],[y*.86,'#DFA9B3'],[y-40,'#B98FAE'],
+                 [y+120,'#94719F'],[y+330,'#72548A'],[y+560,'#563D70'],[y+820,'#3E2B55'],[y+1100,'#2E2040'],[H,'#21172B']];
+  const pct = v => Math.max(0, Math.min(100, v / H * 100)).toFixed(2) + '%';
+  tl.style.background = 'linear-gradient(' + stops.map(([v,c]) => c + ' ' + pct(v)).join(',') + ')';
+  paintAura(y, H);
+  // text colour follows the sky: plum on light, cream once it's dark enough
+  const hex = c => [1,3,5].map(i => parseInt(c.slice(i,i+2),16));
+  const lum = ([r,g,b]) => [r,g,b].map(v => { v/=255; return v <= .03928 ? v/12.92 : ((v+.055)/1.055)**2.4; }).reduce((a,v,i)=>a+v*[.2126,.7152,.0722][i],0);
+  const at = py => { for (let i=1;i<stops.length;i++) if (py <= stops[i][0]) { const [a,ca]=stops[i-1], [b,cb]=stops[i], t=(py-a)/Math.max(1,b-a), A=hex(ca), B=hex(cb); return A.map((v,k)=>v+(B[k]-v)*t); } return hex(stops.at(-1)[1]); };
+  rows.querySelectorAll('.row').forEach(r => { const py = r.getBoundingClientRect().top + scrollY - top + 30; r.classList.toggle('night', lum(at(py)) < .2); });
+}
+
+function paintAura(yN, H) {
+  const aura = document.getElementById('aura'); const W = aura.offsetWidth, s = Math.min(1, W / 1100) * 1 + (W < 700 ? .25 : 0);
+  const orbs = [
+    ['18%', yN * .07, 560, 'rgba(146,217,236,.55)'], ['84%', yN * .2, 600, 'rgba(198,183,232,.55)'],
+    ['22%', yN * .44, 640, 'rgba(255,209,181,.62)'], ['80%', yN * .63, 560, 'rgba(244,180,211,.52)'],
+    ['50%', yN - 230, 980, 'rgba(255,214,150,.6)'],
+    ['18%', yN + 420, 640, 'rgba(120,88,170,.42)'], ['84%', yN + 760, 560, 'rgba(78,140,150,.28)'],
+    ['58%', H - 240, 760, 'rgba(232,140,80,.32)'] ];
+  let html = orbs.map(([x, y, d, c]) => `<div class="orb" style="left:${x};top:${y}px;width:${d*s}px;height:${d*s}px;background:radial-gradient(circle, ${c} 0%, transparent 66%)"></div>`).join('');
+  // the Resonance egg returns at sunset: three faint iridescent halos around the 5pm moment
+  const hw = 820 * s, hh = 900 * s;
+  html += `<svg class="halos" style="top:${yN - 250}px;width:${hw}px;height:${hh}px" viewBox="0 0 820 900"><defs><linearGradient id="iri" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#92D9EC"/><stop offset=".35" stop-color="#C6B7E8"/><stop offset=".65" stop-color="#F4B4D3"/><stop offset="1" stop-color="#FFD7A0"/></linearGradient></defs>
+    <ellipse cx="410" cy="470" rx="170" ry="220" fill="none" stroke="url(#iri)" stroke-width="3" opacity=".55"/>
+    <ellipse cx="410" cy="455" rx="270" ry="330" fill="none" stroke="url(#iri)" stroke-width="2.5" opacity=".38"/>
+    <ellipse cx="410" cy="440" rx="380" ry="430" fill="none" stroke="url(#iri)" stroke-width="2" opacity=".22"/></svg>`;
+  // a few quiet stars once it's dark
+  let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  for (let i = 0; i < 34; i++) { const yy = yN + 220 + rnd() * Math.max(0, H - yN - 700); html += `<span class="star" style="left:${(rnd()*96+2).toFixed(1)}%;top:${yy.toFixed(0)}px;opacity:${(.25+rnd()*.5).toFixed(2)}"></span>`; }
+  aura.innerHTML = html;
+}
+
+// Filters
+const fwrap = document.querySelector('.filters'); let active = 'all';
+FILTERS.forEach(([k, label]) => { const b = document.createElement('button'); b.textContent = label; b.setAttribute('aria-pressed', k === 'all');
+  b.onclick = () => { active = k; fwrap.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); applyFilter(); }; fwrap.appendChild(b); });
+function applyFilter() {
+  rows.querySelectorAll('.row, .opt').forEach(el => el.classList.toggle('dim', active !== 'all' && !el.dataset.cat.split(' ').includes(active)));
+  rows.querySelectorAll('.block').forEach(el => el.classList.toggle('dim', active !== 'all' && !el.dataset.cat.split(' ').includes(active)));
+}
+
+// Day tabs: only Saturday has sample data in this mock
+document.querySelectorAll('.days button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('.days button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  const sat = b.textContent === 'Sat', note = document.getElementById('note');
+  note.style.display = sat ? 'none' : 'block'; note.textContent = sat ? '' : `${b.textContent === 'Thu' ? 'Thursday' : b.textContent === 'Fri' ? 'Friday' : 'Sunday'} fills in from the same schedule file once the 2027 lineup is set. This mock shows Saturday.`;
+  document.getElementById('tl').style.opacity = sat ? 1 : .35;
+});
+
+// Detail card
+const drawer = document.getElementById('drawer'), card = document.getElementById('card');
+function openCard(e) {
+  card.innerHTML = `<button class="x" aria-label="Close">×</button><span class="time">${fmt(e.t)} · ${e.venue}</span><span class="name">${e.name}</span><span class="host">with ${e.host}</span><a class="link" href="#">Meet the facilitator →</a>`;
+  card.querySelector('.x').onclick = () => drawer.classList.remove('on'); drawer.classList.add('on');
+}
+drawer.addEventListener('click', ev => { if (ev.target === drawer) drawer.classList.remove('on'); });
+addEventListener('keydown', ev => { if (ev.key === 'Escape') drawer.classList.remove('on'); });
+
+// Live preview: drops a glowing NOW marker at 9:15 PM, between Ecstatic Dance and Drum & Dance
+const liveBtn = document.getElementById('live'), now = document.getElementById('now');
+liveBtn.onclick = () => {
+  const on = liveBtn.getAttribute('aria-pressed') !== 'true'; liveBtn.setAttribute('aria-pressed', on);
+  liveBtn.textContent = on ? 'Hide live view' : 'Preview live view';
+  if (!on) { now.style.display = 'none'; return; }
+  const a = rows.querySelector('[data-t="20:30"]'), b = rows.querySelector('[data-t="22:00"]'), tl = document.getElementById('tl');
+  const mid = (a.getBoundingClientRect().top + b.getBoundingClientRect().top) / 2 - tl.getBoundingClientRect().top + 14;
+  now.style.top = mid + 'px'; now.style.display = 'flex'; now.scrollIntoView({ behavior: 'smooth', block: 'center' });
+};
+
+render(); addEventListener('resize', paintSky); document.fonts && document.fonts.ready.then(paintSky);
+</script>
+</body>
+</html>
