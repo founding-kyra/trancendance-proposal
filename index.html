@@ -191,6 +191,15 @@ h3 { font-size: clamp(19px, 2.2vw, 24px); line-height: 1.25; }
 .assets-note { margin: 22px 0 0; font-size: 16px; color: var(--ink-soft); }
 @media (max-width: 600px) { .assets { grid-template-columns: 1fr; gap: 30px; margin-top: 40px; } .assets img { box-shadow: 5px 5px 0 var(--accent); } }
 
+/* First look: key art */
+.ka-title { margin-top: 64px; }
+.keyart { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 22px; }
+.keyart figure { margin: 0; }
+.keyart img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 14px; border: 1.5px solid var(--ink); box-shadow: 6px 6px 0 var(--accent); }
+.keyart figcaption { margin-top: 14px; font-size: 16px; color: var(--ink-soft); }
+.keyart figcaption b { display: block; font-family: var(--label); font-stretch: 112.5%; font-weight: 800; font-size: 16px; letter-spacing: .07em; text-transform: uppercase; color: var(--ink); }
+@media (max-width: 600px) { .keyart { grid-template-columns: 1fr; gap: 26px; } .ka-title { margin-top: 48px; } }
+
 /* Wryn's part */
 .checks { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
 .check { background: var(--surface); border-radius: 20px; padding: 22px 18px; }
@@ -325,7 +334,7 @@ footer img { height: 54px; width: auto; margin: 0 auto; }
 </head>
 <body>
 <header class="top"><div class="wrap">
-  <nav aria-label="Sections"><a href="#why">Why</a><a href="#get">What you get</a><a href="#preview">Preview</a><a href="#timeline">Timeline</a><a href="#you">Your part</a><a href="#value">Value</a><a href="#deal">The deal</a></nav>
+  <nav aria-label="Sections"><a href="#why">2026</a><a href="#get">The Plan</a><a href="#preview">Preview</a><a href="#timeline">Timeline</a><a href="#you">Your part</a><a href="#value">Value</a><a href="#deal">The deal</a></nav>
   <button class="theme" id="theme" aria-label="Switch light or dark mode">◐</button>
   <img class="klogo light" src="img/kyra-logo.png" alt="Kyra Aulani"><img class="klogo dark" src="img/kyra-logo-cream.png" alt="Kyra Aulani">
 </div></header>
@@ -338,7 +347,7 @@ footer img { height: 54px; width: auto; margin: 0 auto; }
 </div></section>
 
 <section id="why"><div class="wrap">
-  <h2>Why now</h2>
+  <h2>Trancendance 2026</h2>
   <p class="lead">The 2026 site is beautiful, but Google can barely see it, and the work behind the festival lands on one person.</p>
   <div class="stats">
     <div class="stat"><b>22 MB</b><p>loaded on every page, so it's slow on phones</p></div>
@@ -349,7 +358,7 @@ footer img { height: 54px; width: auto; margin: 0 auto; }
 </div></section>
 
 <section id="get"><div class="wrap">
-  <h2>What you get</h2>
+  <h2>The Plan</h2>
   <p class="lead">Five pieces, one system. Tap each one.</p>
   <div class="tabs" role="tablist">
     <button class="tab" role="tab" aria-selected="true" data-p="site"><span class="n">01</span><span class="t">New website</span></button>
@@ -448,6 +457,13 @@ footer img { height: 54px; width: auto; margin: 0 auto; }
     <figure><img src="img/lineup-wave1.jpg" alt="The First Wave lineup announcement mock"><figcaption>Lineup announcement</figcaption></figure>
   </div>
   <p class="assets-note">Lineup shown with 2026 presenters as placeholders.</p>
+  <h3 class="ka-title">The key art</h3>
+  <p class="assets-note">Three moods from one aura family, each with a job.</p>
+  <div class="keyart">
+    <figure><img src="img/keyart-01-resonance.jpg" alt="Resonance key art"><figcaption><b>Resonance</b>Site hero, poster and share image</figcaption></figure>
+    <figure><img src="img/keyart-02-bloom.jpg" alt="Bloom key art"><figcaption><b>Bloom</b>Tickets, social and merch prints</figcaption></figure>
+    <figure><img src="img/keyart-03-pulse.jpg" alt="Pulse key art"><figcaption><b>Pulse</b>Reels, stories and calm pages</figcaption></figure>
+  </div>
 </div></section>
 
 <section id="timeline"><div class="wrap">
