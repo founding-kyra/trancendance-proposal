@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Plan Your Visit · Trancendance 2.0 (mock)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+@font-face { font-family: "Brand"; src: url("assets/Brand-Regular.ttf") format("truetype"); font-display: swap; }
+:root { --plum: #3A2747; --deep: #2A1D35; --gold: #9A6E2A; --gold-ink: #5C4420; --water: #1E4A50; --cream: #FAF4EC; --mist: #F1E4DE;
+  --brand: "Brand", Georgia, serif; --ui: "Inter", system-ui, -apple-system, sans-serif; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font: 16px/1.6 var(--ui); color: var(--plum); background: var(--mist); -webkit-font-smoothing: antialiased; }
+button, input { font: inherit; }
+.b { font-family: var(--brand); font-weight: 400; text-transform: uppercase; font-variant-ligatures: none; font-feature-settings: "liga" 0, "clig" 0, "dlig" 0, "calt" 0, "salt" 0; letter-spacing: .02em; }
+
+/* Nav (same as the schedule page) */
+.nav { position: absolute; top: 0; left: 0; right: 0; z-index: 5; display: flex; align-items: center; gap: 26px; padding: 18px 32px; }
+.nav { justify-content: center; }
+.nav .links { display: flex; align-items: center; gap: 30px; }
+.nav a { color: var(--plum); text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.nav a.on { color: var(--gold); }
+.nav .tix { border: 1.5px solid var(--plum); border-radius: 999px; padding: 8px 16px; }
+
+/* Hero: Pulse */
+.hero { position: relative; min-height: 640px; background: url("assets/hero-pulse.jpg") center 30% / cover; text-align: center; padding: 130px 20px 270px; }
+.hero::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 50% 58% at 4% 4%, rgba(122,200,228,.62), rgba(122,200,228,0) 72%),
+    radial-gradient(ellipse 46% 52% at 97% 8%, rgba(132,214,206,.55), rgba(132,214,206,0) 72%),
+    radial-gradient(ellipse 38% 30% at 50% 0%, rgba(160,205,240,.5), rgba(160,205,240,0) 75%),
+    radial-gradient(ellipse 30% 36% at 82% 50%, rgba(122,200,228,.38), rgba(122,200,228,0) 72%),
+    radial-gradient(ellipse 28% 34% at 16% 56%, rgba(170,190,238,.4), rgba(170,190,238,0) 72%); }
+.hero::after { content: ""; position: absolute; inset: 0; background: url("assets/grain.png"); mix-blend-mode: soft-light; opacity: .5; pointer-events: none; }
+.hero > * { position: relative; z-index: 1; }
+.hero .ridges { position: absolute; z-index: 2; }
+.hero .lotus { width: 104px; display: block; margin: 0 auto 10px; }
+.hero h1 { font-size: clamp(40px, 7vw, 84px); line-height: 1.02; margin: 0; }
+.hero p { margin: 16px auto 0; max-width: 520px; font-size: 17px; }
+.search { margin: 30px auto 0; max-width: 520px; display: flex; align-items: center; gap: 10px; background: rgba(250,244,236,.72); backdrop-filter: blur(8px); border: 1.5px solid rgba(58,39,71,.25); border-radius: 999px; padding: 6px 8px 6px 22px; }
+.search input { flex: 1; border: 0; background: none; outline: none; color: var(--plum); font-size: 16px; padding: 10px 0; min-width: 0; }
+.search input::placeholder { color: rgba(58,39,71,.6); }
+.search span { background: var(--plum); color: var(--cream); border-radius: 999px; padding: 9px 16px; font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+.ridges { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: 300px; object-fit: cover; object-position: center bottom; pointer-events: none; }
+
+/* Body */
+.page { position: relative; overflow: hidden; padding: 10px 20px 120px; background: linear-gradient(var(--mist) 0%, #F3E2DF 30%, #EFDDE4 60%, #E9DCEA 100%); }
+.page::after { content: ""; position: absolute; inset: 0; background: url("assets/grain.png"); mix-blend-mode: soft-light; opacity: .55; pointer-events: none; z-index: 1; }
+.aura { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.orb { position: absolute; border-radius: 50%; transform: translate(-50%, -50%); filter: blur(14px); }
+.wrap { position: relative; z-index: 2; max-width: 1060px; margin: 0 auto; }
+
+.facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: -10px 0 60px; }
+.fact { background: rgba(250,244,236,.62); backdrop-filter: blur(6px); border: 1px solid rgba(154,110,42,.28); border-radius: 20px; padding: 20px 20px 22px; }
+.fact .k { font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-ink); }
+.fact .v { font-size: 26px; margin: 8px 0 6px; line-height: 1.1; }
+.fact p { margin: 0; font-size: 15px; line-height: 1.5; }
+
+.layout { display: grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: start; }
+.topics { position: sticky; top: 24px; display: flex; flex-direction: column; gap: 4px; }
+.topics a { color: var(--plum); text-decoration: none; padding: 9px 14px; border-radius: 12px; font-size: 14px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.topics a:hover, .topics a.on { background: rgba(250,244,236,.7); color: var(--gold-ink); }
+
+.group { margin-bottom: 48px; scroll-margin-top: 20px; }
+.group h2 { font-size: 34px; margin: 0 0 14px; display: flex; align-items: center; gap: 14px; }
+.group h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(154,110,42,.55), transparent); }
+details { background: rgba(250,244,236,.66); backdrop-filter: blur(6px); border: 1px solid rgba(58,39,71,.1); border-radius: 18px; margin-bottom: 10px; transition: background .2s; }
+details[open] { background: rgba(250,244,236,.86); }
+summary { list-style: none; cursor: pointer; padding: 18px 22px; font-weight: 600; font-size: 17px; display: flex; align-items: center; gap: 14px; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; margin-left: auto; font-family: var(--brand); font-size: 28px; line-height: 1; color: var(--gold); transition: transform .2s; }
+details[open] summary::after { transform: rotate(45deg); }
+.ans { padding: 0 22px 20px; font-size: 16px; }
+.ans p { margin: 0 0 10px; }
+.ans ul { margin: 6px 0 10px; padding-left: 20px; }
+.ans li { margin: 3px 0; }
+.ans .cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px 28px; }
+.ans h4 { margin: 10px 0 2px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-ink); }
+.tag { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; border: 1.2px solid currentColor; border-radius: 999px; padding: 2px 10px; margin: 2px 6px 2px 0; color: var(--water); }
+mark { background: rgba(244,180,211,.55); color: inherit; border-radius: 4px; padding: 0 2px; }
+.empty { display: none; padding: 26px; text-align: center; background: rgba(250,244,236,.66); border-radius: 18px; }
+
+.mapcard { display: grid; grid-template-columns: 1.1fr 1fr; gap: 0; border-radius: 22px; overflow: hidden; background: rgba(250,244,236,.75); border: 1px solid rgba(154,110,42,.3); margin: 4px 0 14px; }
+.mapcard img { width: 100%; height: 340px; object-fit: cover; object-position: center 35%; display: block; }
+.mapcard .txt { align-self: center; }
+.mapcard .txt { padding: 26px 26px 28px; }
+.mapcard h3 { font-size: 28px; margin: 0 0 8px; }
+.mapcard p { margin: 0 0 14px; font-size: 15px; }
+.btn { display: inline-block; background: var(--plum); color: var(--cream); text-decoration: none; border-radius: 999px; padding: 11px 20px; font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.btn.alt { background: none; color: var(--water); border: 1.5px solid var(--water); margin-left: 6px; }
+
+.ask { margin-top: 20px; text-align: center; background: rgba(250,244,236,.62); border-radius: 22px; padding: 30px 24px; }
+.ask h3 { font-size: 30px; margin: 0 0 6px; }
+.ask p { margin: 0 0 16px; }
+
+.foot { position: relative; min-height: 520px; background: linear-gradient(#E9DCEA 0%, rgba(233,220,234,0) 30%, rgba(42,29,53,.25) 65%, rgba(42,29,53,.7) 100%), radial-gradient(ellipse 46% 34% at 50% 72%, rgba(42,29,53,.55), rgba(42,29,53,0) 100%), url("assets/forest-creek.jpg") center 55% / cover; color: var(--cream); text-align: center; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding: 120px 20px 60px; }
+.foot::after { content: ""; position: absolute; inset: 0; background: url("assets/grain.png"); mix-blend-mode: soft-light; opacity: .35; pointer-events: none; }
+.foot img { width: 84px; margin-bottom: 8px; position: relative; z-index: 1; }
+.foot p { font-size: 32px; margin: 0 0 20px; position: relative; z-index: 1; text-shadow: 0 2px 18px rgba(33,23,43,.5); }
+.foot .btn { background: var(--cream); color: var(--plum); position: relative; z-index: 1; }
+.foot small { margin-top: 30px; opacity: .8; font-size: 12px; letter-spacing: .1em; position: relative; z-index: 1; }
+
+@media (max-width: 860px) {
+  .facts { grid-template-columns: 1fr 1fr; }
+  .layout { grid-template-columns: 1fr; gap: 10px; }
+  .topics { position: sticky; top: 0; z-index: 4; flex-direction: row; overflow-x: auto; gap: 6px; padding: 10px 0; margin: 0 -20px 10px; padding-left: 20px; background: linear-gradient(var(--mist), rgba(241,228,222,.9)); scrollbar-width: none; }
+  .topics a { white-space: nowrap; background: rgba(250,244,236,.7); font-size: 12px; padding: 8px 12px; }
+  .mapcard { grid-template-columns: 1fr; }
+  .mapcard img { height: 260px; }
+  .foot { background-size: auto, 120% 50%, cover; }
+}
+@media (max-width: 600px) {
+  .nav { padding: 14px 16px; justify-content: flex-end; } .nav .links a:not(.tix) { display: none; }
+  .hero { padding: 100px 16px 210px; min-height: 0; }
+  .hero h1 { font-size: clamp(34px, 10vw, 44px); }
+  .ridges { height: 190px; }
+  .page { padding: 10px 16px 90px; }
+  .topics { margin: 0 -16px 10px; padding-left: 16px; }
+  .facts { grid-template-columns: 1fr; gap: 10px; margin-bottom: 36px; }
+  .fact .v { font-size: 22px; }
+  .group h2 { font-size: 26px; }
+  summary { padding: 16px 18px; font-size: 16px; }
+  .ans { padding: 0 18px 18px; }
+  .ans .cols { grid-template-columns: 1fr; }
+  .btn.alt { margin: 10px 0 0; }
+  .foot p { font-size: 24px; }
+  .foot { min-height: 420px; }
+}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="links"><a href="#">The Gathering</a><a href="#">Lineup</a><a href="#">Schedule</a><a href="#" class="on">Plan Your Visit</a><a href="#" class="tix">Tickets</a></div></nav>
+
+<header class="hero">
+  <img class="lotus" src="assets/lotus-gold.png" alt="">
+  <h1 class="b">Plan Your Visit</h1>
+  <p>Everything you need before you arrive at Sacred Mountain Waters.</p>
+  <label class="search"><input id="q" type="search" placeholder="Search: parking, kids, tents, refunds…" aria-label="Search the FAQ"><span>Search</span></label>
+  <img class="ridges" src="assets/ridges.png" alt="">
+</header>
+
+<main class="page">
+  <div class="aura" id="aura"></div>
+  <div class="wrap">
+    <section class="facts">
+      <div class="fact"><div class="k">When</div><div class="v b">August 2027</div><p>Three days, Friday to Sunday. Exact dates announced soon.</p></div>
+      <div class="fact"><div class="k">Where</div><div class="v b">Marshall, NC</div><p>Sacred Mountain Waters, 2932 Big Laurel Rd, Marshall, NC 28753</p></div>
+      <div class="fact"><div class="k">Arrive</div><div class="v b">Fri · 10 AM</div><p>Contributors from Thursday 3 PM. Depart by Sunday 6 PM.</p></div>
+      <div class="fact"><div class="k">Good to know</div><div class="v b">Alcohol-free</div><p>Limited to 300. Kids welcome, 3 &amp; under free.</p></div>
+    </section>
+
+    <div class="layout">
+      <nav class="topics" id="topics" aria-label="Topics">
+        <a href="#getting-there">Getting there</a><a href="#camping">Camping &amp; RV</a><a href="#bring">What to bring</a><a href="#food">Food</a><a href="#kids">Kids</a><a href="#tickets">Tickets</a><a href="#agreements">Agreements</a>
+      </nav>
+
+      <div id="faq">
+        <section class="group" id="getting-there"><h2 class="b">Getting there</h2>
+          <div class="mapcard"><img src="assets/venue-map.jpg" alt="Illustrated map of Sacred Mountain Waters"><div class="txt"><h3 class="b">The land</h3><p>Over 200 acres of trails, a swimming pond and the place where two rivers meet. The full map shows camping, stages, the yoga shala and the fire circle.</p><a class="btn" href="#">Open the map</a><a class="btn alt" href="#">Directions</a></div></div>
+          <details><summary>Where is the festival?</summary><div class="ans"><p>Sacred Mountain Waters Wellness Sanctuary, 2932 Big Laurel Rd, Marshall, NC 28753, about 40 minutes north of Asheville.</p></div></details>
+          <details><summary>Will my phone work on the drive in?</summary><div class="ans"><p>Signal drops as you get close, so load GPS directions before you leave and follow the event signs once you arrive.</p></div></details>
+          <details><summary>When can I arrive and when do I leave?</summary><div class="ans"><p>General admission opens Friday at 10 AM. Contributor Pass holders can arrive Thursday from 3 PM. Everyone departs by 6 PM on Sunday.</p><p>Leave extra time for parking, check-in and setting up camp.</p></div></details>
+          <details><summary>Where do I park?</summary><div class="ans"><p>Without a car camping pass, cars go in the remote lot, which isn't far. Car camping and RV passes let you park at your site.</p></div></details>
+        </section>
+
+        <section class="group" id="camping"><h2 class="b">Camping &amp; RV</h2>
+          <details><summary>Can I camp on site?</summary><div class="ans"><p>Yes. Tent camping is included with your pass. Creekside camping is part of the Contributor Pass.</p></div></details>
+          <details><summary>Car camping and RV spots</summary><div class="ans"><p>A limited number of on-site car camping and RV spots are available. Reserve yours ahead of time.</p><p><span class="tag">Car camping · $55</span><span class="tag">RV parking · $88</span></p><p>2026 prices shown. Prices go up July 1.</p></div></details>
+          <details><summary>What facilities are there?</summary><div class="ans"><p><span class="tag">Outdoor showers</span><span class="tag">Sauna</span><span class="tag">Hot tubs</span><span class="tag">Swimming pond</span><span class="tag">Toilets</span></p></div></details>
+        </section>
+
+        <section class="group" id="bring"><h2 class="b">What to bring</h2>
+          <details open><summary>The packing list</summary><div class="ans"><div class="cols">
+            <div><h4>Camping gear</h4><ul><li>Tent</li><li>Sleeping bag &amp; pillow</li><li>Sleeping pad or air mattress</li><li>Camp lighting</li><li>Camp chair</li></ul></div>
+            <div><h4>Clothing</h4><ul><li>Yoga and dance clothes</li><li>Layers for cool mountain evenings</li><li>Rain jacket</li><li>Bathing suit &amp; towel</li><li>Walking shoes, extra socks</li></ul></div>
+            <div><h4>Essentials</h4><ul><li>Refillable water bottle</li><li>Journal and pen</li><li>Yoga mat</li><li>Blanket or shawl</li><li>Flashlight or headlamp</li><li>Sunscreen and a hat</li></ul></div>
+            <div><h4>Optional</h4><ul><li>Musical instruments</li><li>Sacred items for the community altar</li><li>Costumes and expressive attire</li><li>Flow toys, a hammock</li><li>Oracle cards and body paint</li></ul></div>
+          </div></div></details>
+        </section>
+
+        <section class="group" id="food"><h2 class="b">Food</h2>
+          <details><summary>What food is available?</summary><div class="ans"><p>Food vendors run all weekend, including Connection Cafe's Buddha Bowls &amp; Breakfast, Pasta &amp; Prana hemp pasta, Silvermoon Cacao and Chocolate, and herbal elixirs by Laya Botanicals.</p><p>Artisans and healers also offer massage, acupuncture and private sound healing.</p></div></details>
+          <details><summary>Is there a meal plan?</summary><div class="ans"><p>Contributor Passes include every meal of the weekend in the LovEvolution Lodge dining hall, prepared by a local chef. Brunch runs 11 AM to 1 PM in the Dining Den.</p></div></details>
+        </section>
+
+        <section class="group" id="kids"><h2 class="b">Kids</h2>
+          <details><summary>Are kids welcome?</summary><div class="ans"><p>Yes! This is a multi-generational gathering, with facilitators who specialise in presenting to children.</p><p><span class="tag">Kids ecstatic dance</span><span class="tag">Kids acro yoga</span><span class="tag">Trampoline</span><span class="tag">Swimming</span><span class="tag">Nature walks</span><span class="tag">Kids tent crafts</span></p></div></details>
+          <details><summary>How much are kids' tickets?</summary><div class="ans"><p><span class="tag">Ages 4–12 · $25</span><span class="tag">Teens 13–17 · $55</span><span class="tag">3 &amp; under · Free</span></p><p>2026 prices shown.</p></div></details>
+          <details><summary>Is there childcare?</summary><div class="ans"><p>No. Children stay in their parents' care, and kids' sessions are run with parents nearby.</p></div></details>
+        </section>
+
+        <section class="group" id="tickets"><h2 class="b">Tickets</h2>
+          <details><summary>Can I get a refund?</summary><div class="ans"><p>Tickets are non-refundable, but they are exchangeable. You can transfer yours to someone else.</p></div></details>
+          <details><summary>Are there day passes?</summary><div class="ans"><p>A limited number of Friday and Saturday day passes are released closer to the festival.</p></div></details>
+          <details><summary>What is the Contributor Pass?</summary><div class="ans"><p>The early supporter pass: a weekend pass with all meals, the artist lounge, creekside camping, all-access entry and Thursday early arrival.</p></div></details>
+        </section>
+
+        <section class="group" id="agreements"><h2 class="b">Agreements</h2>
+          <details><summary>How we care for each other and the land</summary><div class="ans">
+            <h4>Pack it in, pack it out</h4><p>Carry out everything you bring onto the land.</p>
+            <h4>Leave no trace</h4><p>Help us keep Sacred Mountain Waters pristine and beautiful.</p>
+            <h4>Respect boundaries &amp; consent</h4><p>Always ask before physical contact, and honor each person's yes and no.</p>
+            <h4>Care for the land and buildings</h4><p>Limit water use and treat the property with reverence.</p>
+            <h4>Be kind</h4><p>We gather from many backgrounds and traditions. Lead with compassion and curiosity.</p>
+            <h4>Follow staff guidance</h4><p>Volunteers and team are here to keep everyone safe.</p>
+          </div></details>
+        </section>
+        <p class="empty" id="empty">No answers match that yet. Try another word, or ask us below.</p>
+
+        <div class="ask"><h3 class="b">Still wondering?</h3><p>We're happy to help before you arrive.</p><a class="btn" href="#">Contact us</a></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="foot">
+  <img src="assets/lotus-cream.png" alt="">
+  <p class="b">See you where the rivers meet</p>
+  <a class="btn" href="#">Get Tickets</a>
+  <small>MOCK · 2026 VISITOR INFO SHOWN AS SAMPLE CONTENT</small>
+</footer>
+
+<script>
+// Soft aura light, same family as the schedule page
+(function paintAura() {
+  const a = document.getElementById('aura'), H = a.offsetHeight, s = innerWidth < 700 ? .6 : 1;
+  const orbs = [['12%', .06, 560, 'rgba(146,217,236,.5)'], ['88%', .2, 600, 'rgba(198,183,232,.55)'], ['18%', .42, 620, 'rgba(244,180,211,.45)'],
+                ['84%', .6, 560, 'rgba(255,209,181,.55)'], ['30%', .8, 640, 'rgba(198,183,232,.5)'], ['75%', .95, 560, 'rgba(146,217,236,.35)']];
+  a.innerHTML = orbs.map(([x, y, d, c]) => `<div class="orb" style="left:${x};top:${(y*H).toFixed(0)}px;width:${d*s}px;height:${d*s}px;background:radial-gradient(circle, ${c} 0%, transparent 66%)"></div>`).join('');
+})();
+
+// Search: filters questions, opens matches, highlights the words
+const q = document.getElementById('q'), all = [...document.querySelectorAll('#faq details')], groups = [...document.querySelectorAll('#faq .group')];
+const plain = new Map(all.map(d => [d, d.innerHTML]));
+q.addEventListener('input', () => {
+  const t = q.value.trim().toLowerCase(); let hits = 0;
+  all.forEach(d => {
+    d.innerHTML = plain.get(d);
+    if (!t) { d.style.display = ''; return; }
+    const ok = d.textContent.toLowerCase().includes(t); d.style.display = ok ? '' : 'none';
+    if (ok) { hits++; d.open = true; const re = new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+      d.querySelectorAll('summary, p, li, h4').forEach(el => { if (!el.querySelector('*')) el.innerHTML = el.textContent.replace(re, '<mark>$1</mark>'); }); }
+  });
+  groups.forEach(g => { g.style.display = (!t || g.querySelector('details:not([style*="none"])')) ? '' : 'none'; });
+  document.getElementById('empty').style.display = t && !hits ? 'block' : 'none';
+});
+
+// Topic nav follows your scroll
+const links = [...document.querySelectorAll('#topics a')];
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(l => l.classList.toggle('on', l.getAttribute('href') === '#' + e.target.id)); }), { rootMargin: '-30% 0px -60% 0px' });
+groups.forEach(g => io.observe(g));
+</script>
+</body>
+</html>
