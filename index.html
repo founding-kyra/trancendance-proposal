@@ -397,7 +397,7 @@ footer img { height: 54px; width: auto; margin: 0 auto; }
   </div>
 
   <div class="panel" id="p-brand" role="tabpanel" hidden>
-    <h3>30 assets, refreshed for 2.0</h3>
+    <h3>25 assets, refreshed for 2.0</h3>
     <p class="sub">Each one is shown as it looks today. Tap any to see what changes.</p>
     <div class="chips" id="chips"></div>
     <div class="kit" id="kit"></div>
@@ -517,7 +517,7 @@ footer img { height: 54px; width: auto; margin: 0 auto; }
   <div class="deal">
     <h2>The deal</h2>
     <div class="cols">
-      <div><h3>Kyra delivers</h3><ul><li>New website, live Feb 1</li><li>Brand 2.0 kit, all 30 assets</li><li>Festival admin system</li><li>Voice editing for Wryn and Kyra</li><li>7 short-form videos and 1 hero video</li></ul></div>
+      <div><h3>Kyra delivers</h3><ul><li>New website, live Feb 1</li><li>Brand 2.0 kit, all 25 assets</li><li>Festival admin system</li><li>Voice editing for Wryn and Kyra</li><li>7 short-form videos and 1 hero video</li></ul></div>
       <div><h3>Kyra receives</h3><ul><li>Private room at Ecstatic Waves, Jan 22–31</li><li>One-way flight, Fort Myers to Oaxaca</li><li>Sponsor credit across Trancendance 2027</li></ul></div>
     </div>
     <div class="close"><a class="pill yes" href="https://wa.me/19197998484?text=fuck%20yes" target="_blank" rel="noopener">Fuck yes</a></div>
@@ -555,10 +555,9 @@ document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click'
 
 // Brand kit
 const KIT = [
- ['01-logo','Identity','Primary logo','A 2.0 lockup in four versions: colour, gold, dark-ground and white.'],
- ['02-wordmark','Identity','Wordmark','A horizontal wordmark for tight spaces.'],
- ['03-lotus','Identity','Lotus icon','The mark on its own, for small sizes and merch.'],
- ['04-favicon','Identity','Browser icon','Today the tab shows a partner\'s mark. This becomes the lotus.'],
+ ['01-logo','Identity','Primary logo','The same logo, optimized by Kyra for the 2.0 look.'],
+ ['02-wordmark','Identity','Text logo','The same text logo, optimized by Kyra for the 2.0 look.'],
+ ['03-lotus','Identity','Lotus icon','The same lotus, optimized by Kyra for the 2.0 look.'],
  ['05-type','Identity','Typography','A licensed type pair: a capitals serif and a script.'],
  ['06-texture','Identity','Texture','Background textures in the new palette.'],
  ['07-palette','Identity','Colour palette','Named colours, with one per pass type.'],
@@ -567,23 +566,19 @@ const KIT = [
  ['10-hero','Campaign','Site hero banner','Desktop and mobile versions with dates and Get Tickets.'],
  ['11-icons','Campaign','Offering icons','Five icons as separate files, so they can be reused.'],
  ['12-poster','Campaign','Festival poster','Print and social sizes with 2027 dates.'],
- ['13-tickettailor','Campaign','Box office page','Banner, logo and colours on Ticket Tailor.'],
+ ['13-tickettailor','Campaign','Box office header','The header design for the Ticket Tailor page.'],
  ['14-alcoholfree','Campaign','Alcohol-free badge','The badge, redrawn in 2.0 style.'],
  ['15-nav','Website UI','Navigation','The logo plus a Get Tickets button.'],
  ['16-button','Website UI','Buttons','Primary and secondary styles.'],
  ['17-stamp','Website UI','Status stamps','Early Bird, Few Left, Price Rises Soon, Sold Out.'],
  ['18-passband','Website UI','Pass cards','One card per pass: price, tier and status.'],
  ['19-ornaments','Website UI','Ornaments','Dividers, frames and leaves in 2.0 style.'],
- ['20-footer','Website UI','Footer','The 2.0 wordmark and 2027 partners.'],
- ['21-headline','Website UI','Headline style','The capitals-plus-script title treatment.'],
- ['22-card','Program','Presenter card','One editable template for every artist.'],
+ ['22-card','Program','Presenter card','One editable spotlight template for every artist, solo or duo.'],
  ['23-wave','Program','Wave announcement','A grid post and story for each lineup wave.'],
- ['24-feature','Program','Feature card','A spotlight for one or two artists.'],
  ['25-daily','Program','Daily schedules','Friday to Sunday posters, also on the site as text.'],
  ['26-thursday','Program','Thursday poster','A new early-arrival theme for 2027.'],
  ['27-kids','Program','Kids schedule','The kids and teen-lounge poster.'],
  ['28-kbyg','Program','Know Before You Go','Arrival, packing and agreements.'],
- ['29-eclipse','Program','Special program','The section graphic for the headline special program.'],
  ['30-map','Program','Venue map','The same land in 2.0 style, updated for 2027.'],
 ];
 const kitEl = document.getElementById('kit'), chipsEl = document.getElementById('chips');
@@ -617,9 +612,9 @@ const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','
 const fmt = d => { const x = new Date(d + 'T12:00:00'); return MON[x.getMonth()] + ' ' + x.getDate(); };
 const PHASES = [
  { id:'decide', name:'Lock dates & prices', who:'wryn', start:'2026-11-16', end:'2026-11-25', items:['2027 dates','Pass tiers','Prices'] },
- { id:'brand', name:'Brand 2.0 foundation', start:'2026-11-16', end:'2026-12-04', c:'--s1', items:['Logo','Wordmark','Lotus icon','Type','Palette','Texture'], note:'Sign-off Dec 4' },
- { id:'ui', name:'Website UI kit', start:'2026-11-30', end:'2026-12-11', c:'--s2', items:['Nav','Buttons','Stamps','Pass cards','Ornaments','Headlines','Browser icon'] },
- { id:'art', name:'Key art & campaign', start:'2026-12-07', end:'2027-01-15', c:'--s3', items:['Hero art','Offering icons','Share image','Hero banner','Footer','Poster','Ticket Tailor'] },
+ { id:'brand', name:'Brand 2.0 foundation', start:'2026-11-16', end:'2026-12-04', c:'--s1', items:['Logo','Text logo','Lotus icon','Type','Palette','Texture'], note:'Sign-off Dec 4' },
+ { id:'ui', name:'Website UI kit', start:'2026-11-30', end:'2026-12-11', c:'--s2', items:['Nav','Buttons','Stamps','Pass cards','Ornaments'] },
+ { id:'art', name:'Key art & campaign', start:'2026-12-07', end:'2027-01-15', c:'--s3', items:['Hero art','Offering icons','Share image','Hero banner','Poster','Box office header'] },
  { id:'ops', name:'Admin system', start:'2026-12-14', end:'2027-01-08', c:'--s5', items:['Artist database','One-tap contracts','Rate card','Artist emails'], note:'Ready before first-wave contracts' },
  { id:'site', name:'Website + SEO', start:'2026-12-14', end:'2027-01-20', c:'--s4', items:['8 pages','Facilitator pages','Google event listings','Checkout on site','QA'] },
  { id:'program', name:'Program templates', start:'2027-01-04', end:'2027-01-19', c:'--s6', items:['Presenter card','Wave posts','Schedule posters','Know Before You Go','Map'] },
