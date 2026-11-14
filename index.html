@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Trancendance 2.0 · Proposal</title>
+<meta name="description" content="Trancendance 2.0: a proposal from Kyra Aulani for Wryn Magdalyn.">
+<link rel="icon" href="img/lotus.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Inconsolata:wdth,wght@50..200,400..800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #EEE8DE; --surface: #E5DED1; --ink: #3A0F07; --ink-soft: rgba(58,15,7,.7);
+  --line: rgba(58,15,7,.3); --faint: rgba(58,15,7,.1); --accent: #D2541F; --on-accent: #fff;
+  --s1: #3A0F07; --s2: #7A2A14; --s3: #A33A1A; --s4: #D2541F; --s5: #E07A4A; --s6: #C99B6E; --s7: #8C7A5B;
+  --band: rgba(58,15,7,.06); --retreat: rgba(210,84,31,.13); --shadow: rgba(58,15,7,.35);
+  --display: "Syncopate", "Arial Black", system-ui, sans-serif;
+  --label: "Inconsolata", ui-monospace, Menlo, monospace;
+  --body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #1D1A18; --surface: #282320; --ink: #EEE8DE; --ink-soft: rgba(238,232,222,.72); --line: rgba(238,232,222,.3); --faint: rgba(238,232,222,.09);
+  --accent: #E36A3A; --on-accent: #1D1A18; --s1: #EEE8DE; --s2: #E9B79A; --s3: #E38B60; --s4: #E36A3A; --s5: #B9532C; --s6: #C99B6E; --s7: #8C7A5B;
+  --band: rgba(238,232,222,.06); --retreat: rgba(227,106,58,.16); --shadow: rgba(0,0,0,.6); color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #1D1A18; --surface: #282320; --ink: #EEE8DE; --ink-soft: rgba(238,232,222,.72); --line: rgba(238,232,222,.3); --faint: rgba(238,232,222,.09);
+  --accent: #E36A3A; --on-accent: #1D1A18; --s1: #EEE8DE; --s2: #E9B79A; --s3: #E38B60; --s4: #E36A3A; --s5: #B9532C; --s6: #C99B6E; --s7: #8C7A5B;
+  --band: rgba(238,232,222,.06); --retreat: rgba(227,106,58,.16); --shadow: rgba(0,0,0,.6); color-scheme: dark; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 19px/1.55 var(--body); -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+.wrap { width: min(1120px, 100% - 32px); margin: 0 auto; }
+section { padding: 88px 0; border-top: 1px solid var(--faint); }
+h1, h2, h3 { font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; margin: 0; text-wrap: balance; }
+h2 { font-size: clamp(28px, 4.4vw, 48px); line-height: 1.12; margin-bottom: 18px; }
+h3 { font-size: clamp(19px, 2.2vw, 24px); line-height: 1.25; }
+.lead { font-size: clamp(20px, 2.2vw, 24px); color: var(--ink-soft); max-width: 760px; margin: 0 0 40px; }
+.label { font-family: var(--label); font-stretch: 112.5%; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; }
+.rust { color: var(--accent); }
+
+/* Top bar */
+.top { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--faint); }
+.top .wrap { display: flex; align-items: center; gap: 22px; height: 72px; }
+.top nav { display: flex; gap: 22px; margin-right: auto; overflow-x: auto; scrollbar-width: none; }
+.top nav a { font-family: var(--label); font-stretch: 112.5%; font-weight: 700; font-size: 16px; letter-spacing: .07em; text-transform: uppercase; text-decoration: none; white-space: nowrap; opacity: .75; }
+.top nav a:hover { opacity: 1; color: var(--accent); }
+.theme { background: none; border: 1.5px solid var(--line); color: var(--ink); width: 42px; height: 42px; border-radius: 50%; cursor: pointer; font-size: 18px; flex: none; }
+.klogo { height: 46px; width: auto; flex: none; }
+.klogo.dark { display: none; }
+:root[data-theme="dark"] .klogo.light { display: none; } :root[data-theme="dark"] .klogo.dark { display: block; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .klogo.light { display: none; } :root:not([data-theme="light"]) .klogo.dark { display: block; } }
+@media (max-width: 760px) { .top nav { display: none; } .top .wrap { justify-content: space-between; } }
+
+/* Hero */
+.hero { padding: 72px 0 96px; border: 0; text-align: center; }
+.hero .tlogo { width: min(520px, 90%); margin: 0 auto 28px; filter: drop-shadow(0 18px 30px var(--shadow)); }
+.hero h1 { font-size: clamp(28px, 8vw, 96px); line-height: 1; letter-spacing: .02em; }
+.hero h1 span { color: var(--accent); }
+.hero p { font-size: clamp(21px, 2.6vw, 28px); margin: 22px auto 0; max-width: 760px; color: var(--ink-soft); }
+.hero .for { margin-top: 34px; display: inline-flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.pill { font-family: var(--label); font-stretch: 112.5%; font-weight: 700; font-size: 17px; letter-spacing: .07em; text-transform: uppercase; border: 1.5px solid var(--line); border-radius: 999px; padding: 10px 20px; }
+.pill.solid { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+/* Why */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.stat { background: var(--surface); border-radius: 22px; padding: 30px 28px; }
+.stat b { display: block; font-family: var(--display); font-size: clamp(34px, 4.6vw, 54px); line-height: 1; color: var(--accent); margin-bottom: 14px; letter-spacing: 0; }
+.stat p { margin: 0; font-size: 20px; }
+.googles { margin-top: 20px; background: var(--ink); color: var(--bg); border-radius: 22px; padding: 30px 28px; display: grid; grid-template-columns: auto 1fr; gap: 26px; align-items: center; }
+.googles code { font-family: var(--label); font-size: clamp(22px, 3.4vw, 40px); letter-spacing: .5em; font-weight: 700; color: var(--accent); }
+.googles p { margin: 0; font-size: 20px; }
+@media (max-width: 820px) { .stats { grid-template-columns: 1fr; } .googles { grid-template-columns: 1fr; } }
+
+/* Deliverables */
+.tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 26px; }
+.tab { text-align: left; background: var(--surface); color: var(--ink); border: 2px solid transparent; border-radius: 20px; padding: 22px 20px; cursor: pointer; font: inherit; transition: transform .15s, border-color .15s; }
+.tab:hover { transform: translateY(-3px); }
+.tab[aria-selected="true"] { border-color: var(--accent); background: var(--bg); box-shadow: 6px 6px 0 var(--accent); }
+.tab .n { font-family: var(--display); font-weight: 700; font-size: 34px; color: var(--accent); line-height: 1; }
+.tab .t { display: block; font-family: var(--label); font-stretch: 112.5%; font-weight: 800; font-size: 19px; text-transform: uppercase; letter-spacing: .06em; margin-top: 12px; }
+.panel { background: var(--surface); border-radius: 26px; padding: 34px; }
+.panel h3 { margin-bottom: 8px; }
+.panel .sub { font-size: 20px; color: var(--ink-soft); margin: 0 0 26px; }
+@media (max-width: 820px) { .tabs { grid-template-columns: 1fr 1fr; } .panel { padding: 22px; } }
+
+.seg { display: inline-flex; background: var(--bg); border-radius: 999px; padding: 5px; gap: 4px; margin-bottom: 22px; }
+.seg button { font-family: var(--label); font-stretch: 112.5%; font-weight: 800; font-size: 17px; letter-spacing: .07em; text-transform: uppercase; border: 0; background: none; color: var(--ink); padding: 10px 22px; border-radius: 999px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.shot { border-radius: 16px; overflow: hidden; box-shadow: 8px 8px 0 var(--accent); border: 1.5px solid var(--ink); }
+.today { display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px; align-items: start; }
+.flags { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.flags li { background: var(--bg); border-radius: 16px; padding: 16px 18px; font-size: 19px; display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: start; }
+.flags li b { font-family: var(--display); color: var(--accent); font-size: 22px; line-height: 1.1; }
+.pages { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.pg { background: var(--bg); border-radius: 18px; padding: 20px 18px; min-height: 130px; border: 1.5px solid var(--faint); }
+.pg.key { border-color: var(--accent); box-shadow: 5px 5px 0 var(--accent); }
+.pg .label { font-size: 18px; display: block; margin-bottom: 8px; }
+.pg p { margin: 0; font-size: 17px; color: var(--ink-soft); line-height: 1.45; }
+@media (max-width: 820px) { .today { grid-template-columns: 1fr; } .pages { grid-template-columns: 1fr 1fr; } }
+
+.chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px; }
+.chip { font-family: var(--label); font-stretch: 112.5%; font-weight: 700; font-size: 16px; letter-spacing: .06em; text-transform: uppercase; background: var(--bg); color: var(--ink); border: 1.5px solid var(--line); border-radius: 999px; padding: 9px 16px; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.kit { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.kit button { background: var(--bg); border: 0; padding: 0; border-radius: 14px; overflow: hidden; cursor: pointer; text-align: left; color: var(--ink); font: inherit; transition: transform .15s; }
+.kit button:hover { transform: translateY(-3px); }
+.kit img { width: 100%; aspect-ratio: 4/3; object-fit: cover; background: #d9d1c3; }
+.kit span { display: block; padding: 10px 12px 12px; font-family: var(--label); font-stretch: 112.5%; font-weight: 700; font-size: 15px; letter-spacing: .04em; text-transform: uppercase; line-height: 1.25; }
+.kit span i { font-style: normal; color: var(--accent); margin-right: 6px; }
+@media (max-width: 820px) { .kit { grid-template-columns: repeat(2, 1fr); } }
+
+.flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; margin-bottom: 30px; }
+.step { text-align: center; position: relative; padding: 0 8px; }
+.step::after { content: ""; position: absolute; top: 31px; left: calc(50% + 34px); right: calc(-50% + 34px); height: 2px; background: var(--accent); }
+.step:last-child::after { display: none; }
+.step .dot { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 14px; display: grid; place-items: center; background: var(--ink); color: var(--bg); font-family: var(--display); font-weight: 700; font-size: 24px; }
+.step b { display: block; font-family: var(--label); font-stretch: 112.5%; font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: .05em; }
+.step p { margin: 6px 0 0; font-size: 17px; color: var(--ink-soft); line-height: 1.4; }
+.admin { display: grid; grid-template-columns: 1fr 1.1fr; gap: 30px; align-items: center; }
+.admin ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.admin li { font-size: 20px; padding-left: 30px; position: relative; }
+.admin li::before { content: ""; position: absolute; left: 0; top: 9px; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); }
+@media (max-width: 820px) { .flow { grid-template-columns: 1fr; gap: 22px; } .step::after { display: none; } .admin { grid-template-columns: 1fr; } }
+
+.voice { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.vcard { background: var(--bg); border-radius: 22px; padding: 26px; }
+.vcard .label { color: var(--accent); font-size: 18px; }
+.vcard q { display: block; font-size: 22px; margin-top: 12px; line-height: 1.4; }
+.vcard p { font-size: 19px; margin: 12px 0 0; }
+@media (max-width: 820px) { .voice { grid-template-columns: 1fr; } }
+
+/* Timeline */
+.tl { background: var(--surface); border-radius: 26px; padding: 30px 30px 26px; }
+.tl-axis, .tl-row { display: grid; grid-template-columns: 250px 1fr; align-items: center; }
+.tl-axis { margin-bottom: 8px; }
+.ticks { position: relative; height: 30px; }
+.ticks span { position: absolute; transform: translateX(-50%); font-family: var(--label); font-stretch: 112.5%; font-weight: 700; font-size: 16px; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; color: var(--ink-soft); }
+.tl-body { position: relative; }
+.tl-bands { position: absolute; inset: 0 0 0 250px; pointer-events: none; }
+.tl-bands div { position: absolute; top: 0; bottom: 0; border-radius: 10px; }
+.tl-bands .hol { background: var(--band); }
+.tl-bands .ret { background: var(--retreat); }
+.tl-bands .launch { width: 0; border-left: 2.5px dashed var(--accent); border-radius: 0; }
+.tl-bands .tag { position: absolute; top: -2px; transform: translateX(-50%); font-family: var(--label); font-stretch: 112.5%; font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; color: var(--ink-soft); }
+.tl-row { min-height: 54px; position: relative; }
+.tl-row .nm { font-family: var(--label); font-stretch: 112.5%; font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: .04em; padding-right: 14px; line-height: 1.2; }
+.tl-row .nm small { display: block; font-size: 15px; font-weight: 600; color: var(--ink-soft); letter-spacing: .03em; }
+.track { position: relative; height: 54px; }
+.bar { position: absolute; top: 11px; height: 32px; border-radius: 999px; border: 0; cursor: pointer; padding: 0; transition: transform .15s, box-shadow .15s; }
+.bar:hover, .bar[aria-pressed="true"] { transform: scaleY(1.18); box-shadow: 4px 4px 0 var(--ink); }
+.bar.wryn { background: repeating-linear-gradient(45deg, var(--s6), var(--s6) 8px, transparent 8px, transparent 14px); border: 2px solid var(--s6); }
+.flag { position: absolute; top: 9px; width: 34px; height: 34px; transform: translateX(-50%) rotate(45deg); background: var(--accent); border-radius: 6px; border: 0; cursor: pointer; }
+.detail { margin-top: 22px; background: var(--bg); border-radius: 20px; padding: 24px 26px; display: grid; grid-template-columns: 1fr 1.4fr; gap: 26px; min-height: 150px; }
+.detail .when { font-family: var(--display); font-weight: 700; font-size: clamp(22px, 2.6vw, 30px); text-transform: uppercase; line-height: 1.15; }
+.detail .when span { display: block; color: var(--accent); font-size: .75em; margin-top: 8px; }
+.detail ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 10px; align-content: start; }
+.detail li { font-family: var(--label); font-stretch: 112.5%; font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: .05em; border: 1.5px solid var(--line); border-radius: 999px; padding: 8px 14px; }
+.legend { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 18px; font-size: 17px; color: var(--ink-soft); }
+.legend i { display: inline-block; width: 22px; height: 14px; border-radius: 4px; vertical-align: -1px; margin-right: 8px; }
+@media (max-width: 820px) {
+  .tl { padding: 20px 16px; }
+  .tl-axis, .tl-row { grid-template-columns: 1fr; }
+  .tl-axis > div:first-child { display: none; }
+  .tl-bands { left: 0; }
+  .tl-row .nm { padding: 10px 0 0; font-size: 16px; }
+  .ticks span:nth-child(even) { display: none; }
+  .detail { grid-template-columns: 1fr; }
+}
+
+/* Wryn's part */
+.checks { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.check { background: var(--surface); border-radius: 20px; padding: 22px 18px; }
+.check .d { font-family: var(--display); font-weight: 700; font-size: 24px; color: var(--accent); line-height: 1.05; text-transform: uppercase; }
+.check p { margin: 12px 0 0; font-size: 18px; line-height: 1.4; }
+@media (max-width: 900px) { .checks { grid-template-columns: 1fr 1fr; } }
+
+/* Value */
+.big { font-family: var(--display); font-weight: 700; font-size: clamp(54px, 10vw, 120px); line-height: 1; color: var(--accent); letter-spacing: -.01em; }
+.range { font-size: 21px; color: var(--ink-soft); margin: 10px 0 34px; }
+.stack { display: flex; height: 64px; border-radius: 18px; overflow: hidden; margin-bottom: 16px; }
+.stack button { border: 0; padding: 0; cursor: pointer; transition: filter .15s; }
+.stack button:hover, .stack button[aria-pressed="true"] { filter: brightness(1.15) saturate(1.1); outline: 3px solid var(--ink); outline-offset: -3px; }
+.vrows { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 34px; }
+.vrow { display: grid; grid-template-columns: 18px 1fr auto; gap: 14px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--faint); font-size: 19px; cursor: default; }
+.vrow i { width: 18px; height: 18px; border-radius: 5px; }
+.vrow b { font-family: var(--label); font-stretch: 112.5%; font-size: 20px; }
+.vrow.on { color: var(--accent); }
+@media (max-width: 820px) { .vrows { grid-template-columns: 1fr; } }
+.trade { margin-top: 46px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.tcard { background: var(--surface); border-radius: 22px; padding: 26px 28px; }
+.tcard .label { color: var(--accent); font-size: 17px; }
+.tcard h3 { margin: 10px 0 8px; }
+.tcard p { margin: 0; font-size: 19px; color: var(--ink-soft); }
+@media (max-width: 820px) { .trade { grid-template-columns: 1fr; } }
+
+/* Deal */
+.deal { background: var(--ink); color: var(--bg); border-radius: 30px; padding: 54px 48px; }
+.deal h2 { color: var(--bg); }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 28px; }
+.cols h3 { color: var(--accent); margin-bottom: 16px; }
+.cols ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.cols li { font-size: 21px; padding-left: 30px; position: relative; }
+.cols li::before { content: "✦"; position: absolute; left: 0; color: var(--accent); }
+.close { margin-top: 44px; padding-top: 32px; border-top: 1px solid rgba(238,232,222,.25); display: flex; flex-wrap: wrap; gap: 18px; align-items: center; justify-content: space-between; }
+.close p { margin: 0; font-size: 22px; }
+.close .pill { border-color: var(--accent); color: var(--accent); }
+:root[data-theme="dark"] .deal { background: #2a2420; color: #EEE8DE; } :root[data-theme="dark"] .deal h2 { color: #EEE8DE; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .deal { background: #2a2420; color: #EEE8DE; } :root:not([data-theme="light"]) .deal h2 { color: #EEE8DE; } }
+@media (max-width: 820px) { .deal { padding: 32px 22px; } .cols { grid-template-columns: 1fr; } }
+footer { padding: 40px 0 60px; text-align: center; }
+footer img { height: 54px; width: auto; margin: 0 auto; }
+
+/* Lightbox */
+.lb { position: fixed; inset: 0; z-index: 50; background: rgba(20,12,8,.86); display: grid; place-items: center; padding: 24px; }
+.lb[hidden] { display: none; }
+.lb .box { background: var(--bg); color: var(--ink); border-radius: 22px; max-width: 900px; width: 100%; max-height: 92vh; overflow: auto; }
+.lb img { width: 100%; max-height: 62vh; object-fit: contain; background: #2b2530; }
+.lb .txt { padding: 22px 26px 26px; }
+.lb .txt p { margin: 8px 0 0; font-size: 20px; }
+.lb .x { float: right; background: none; border: 0; font-size: 30px; color: var(--ink); cursor: pointer; line-height: 1; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <nav aria-label="Sections"><a href="#why">Why</a><a href="#get">What you get</a><a href="#timeline">Timeline</a><a href="#you">Your part</a><a href="#value">Value</a><a href="#deal">The deal</a></nav>
+  <button class="theme" id="theme" aria-label="Switch light or dark mode">◐</button>
+  <img class="klogo light" src="img/kyra-logo.png" alt="Kyra Aulani"><img class="klogo dark" src="img/kyra-logo-cream.png" alt="Kyra Aulani">
+</div></header>
+
+<main>
+<section class="hero"><div class="wrap">
+  <img class="tlogo" src="img/trancendance-logo.png" alt="Trancendance">
+  <h1>Trancendance <span>2.0</span></h1>
+  <p>A festival that sells out fast and runs itself, so Wryn can spend her time on the gathering, not the admin.</p>
+  <div class="for"><span class="pill solid">For Wryn Magdalyn</span><span class="pill">From Kyra Aulani</span><span class="pill">Live Feb 1, 2027</span></div>
+</div></section>
+
+<section id="why"><div class="wrap">
+  <h2>Why now</h2>
+  <p class="lead">The 2026 site is beautiful, but Google can barely see it, and the work behind the festival lands on one person.</p>
+  <div class="stats">
+    <div class="stat"><b>22 MB</b><p>loaded on every page, so it's slow on phones</p></div>
+    <div class="stat"><b>0</b><p>headings or descriptions Google can rank</p></div>
+    <div class="stat"><b>~55</b><p>artist contracts, emails and cards, all made by hand</p></div>
+  </div>
+  <div class="googles"><code>G E T T I C K E T S</code><p>This is what Google reads on the current site. Every word is split into separate letters.</p></div>
+</div></section>
+
+<section id="get"><div class="wrap">
+  <h2>What you get</h2>
+  <p class="lead">Four pieces, one system. Tap each one.</p>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-p="site"><span class="n">01</span><span class="t">New website</span></button>
+    <button class="tab" role="tab" aria-selected="false" data-p="brand"><span class="n">02</span><span class="t">Brand 2.0 kit</span></button>
+    <button class="tab" role="tab" aria-selected="false" data-p="admin"><span class="n">03</span><span class="t">Admin system</span></button>
+    <button class="tab" role="tab" aria-selected="false" data-p="voice"><span class="n">04</span><span class="t">Edit by voice</span></button>
+  </div>
+
+  <div class="panel" id="p-site" role="tabpanel">
+    <h3>A site Google can read and people can buy from</h3>
+    <p class="sub">Same look and feel. Built properly underneath, so it ranks and sells.</p>
+    <div class="seg" role="group" aria-label="Compare"><button aria-pressed="true" data-v="now">2026 site</button><button aria-pressed="false" data-v="new">2027 site</button></div>
+    <div id="v-now" class="today">
+      <div class="shot"><img src="img/home-02.jpg" alt="The 2026 Trancendance home page" loading="lazy"></div>
+      <ul class="flags">
+        <li><b>1</b><span>Built in Canva, so text is split letter by letter</span></li>
+        <li><b>2</b><span>Lineup and schedule are only images</span></li>
+        <li><b>3</b><span>Prices repeated on 6 pages</span></li>
+        <li><b>4</b><span>Checkout opens on another site</span></li>
+      </ul>
+    </div>
+    <div id="v-new" hidden>
+      <div class="pages">
+        <div class="pg key"><span class="label">Tickets</span><p>Every pass in one place, checkout on the page</p></div>
+        <div class="pg"><span class="label">The Gathering</span><p>The story, the offerings, the land</p></div>
+        <div class="pg"><span class="label">Lineup</span><p>A page for every facilitator</p></div>
+        <div class="pg"><span class="label">Schedule</span><p>Real text by day, with posters to download</p></div>
+        <div class="pg"><span class="label">Plan Your Visit</span><p>Map, camping, packing, FAQ</p></div>
+        <div class="pg"><span class="label">Families</span><p>Kids program and tickets</p></div>
+        <div class="pg"><span class="label">Get Involved</span><p>Applications and sponsors</p></div>
+        <div class="pg"><span class="label">Journal</span><p>Stories that bring in search traffic</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-brand" role="tabpanel" hidden>
+    <h3>30 assets, refreshed for 2.0</h3>
+    <p class="sub">Each one is shown as it looks today. Tap any to see what changes.</p>
+    <div class="chips" id="chips"></div>
+    <div class="kit" id="kit"></div>
+  </div>
+
+  <div class="panel" id="p-admin" role="tabpanel" hidden>
+    <h3>Contracts and emails in one tap</h3>
+    <p class="sub">One record per artist powers everything else.</p>
+    <div class="flow">
+      <div class="step"><div class="dot">1</div><b>Add artist</b><p>Name, slot, fee, package</p></div>
+      <div class="step"><div class="dot">2</div><b>Tap send</b><p>Contract fills itself in</p></div>
+      <div class="step"><div class="dot">3</div><b>Signed</b><p>Filed and marked automatically</p></div>
+      <div class="step"><div class="dot">4</div><b>Welcome email</b><p>Bio and headshot requested</p></div>
+      <div class="step"><div class="dot">5</div><b>Card + page</b><p>Presenter card, site page, schedule</p></div>
+    </div>
+    <div class="admin">
+      <ul>
+        <li>Wryn's contract, turned into one template</li>
+        <li>15 details fill in automatically</li>
+        <li>A rate card, so most deals are a menu</li>
+        <li>Artist emails sent at the right moments</li>
+      </ul>
+      <div class="shot"><img src="img/contract.jpg" alt="The facilitator agreement template, filled in" loading="lazy"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-voice" role="tabpanel" hidden>
+    <h3>Change the site by talking</h3>
+    <p class="sub">No website editor. Nothing goes live until Kyra or Wryn approves it.</p>
+    <div class="voice">
+      <div class="vcard"><span class="label">1 · Say it</span><q>Add Maya Rivers to wave 2, Saturday 10am, AcroYoga.</q></div>
+      <div class="vcard"><span class="label">2 · Check it</span><p>A private preview link arrives in about a minute.</p></div>
+      <div class="vcard"><span class="label">3 · Approve it</span><p>One tap and it's live. Only Wryn can approve prices and dates.</p></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="timeline"><div class="wrap">
+  <h2>The timeline</h2>
+  <p class="lead">Everything is built by Jan 20, before Kyra's retreat. Marketing starts Feb 1. Tap any bar.</p>
+  <div class="tl">
+    <div class="tl-axis"><div></div><div class="ticks" id="ticks"></div></div>
+    <div class="tl-body" id="tlbody"><div class="tl-bands" id="bands"></div></div>
+    <div class="detail" id="detail" aria-live="polite"></div>
+    <div class="legend"><span><i style="background:var(--s4)"></i>Kyra builds</span><span><i style="background:repeating-linear-gradient(45deg,var(--s6),var(--s6) 4px,transparent 4px,transparent 7px);border:1.5px solid var(--s6)"></i>Wryn decides</span><span><i style="background:var(--band)"></i>Holiday break</span><span><i style="background:var(--retreat)"></i>Kyra at Ecstatic Waves</span></div>
+  </div>
+</div></section>
+
+<section id="you"><div class="wrap">
+  <h2>Wryn's part</h2>
+  <p class="lead">Five checkpoints. Everything else is on Kyra.</p>
+  <div class="checks">
+    <div class="check"><div class="d">Nov 25</div><p>Lock 2027 dates and pass prices</p></div>
+    <div class="check"><div class="d">Dec 7</div><p>Ask partners for fresh logos</p></div>
+    <div class="check"><div class="d">Dec 11</div><p>Send the best 2026 photos</p></div>
+    <div class="check"><div class="d">Jan 8</div><p>Confirm first-wave artists</p></div>
+    <div class="check"><div class="d">Jan 20</div><p>Approve the finished site</p></div>
+  </div>
+</div></section>
+
+<section id="value"><div class="wrap">
+  <h2>What this is worth</h2>
+  <div class="big">$22,500</div>
+  <p class="range">Typical studio rate for this scope. The usual range is $18,000–$28,000.</p>
+  <div class="stack" id="stack" role="group" aria-label="Value by piece"></div>
+  <div class="vrows" id="vrows"></div>
+  <div class="trade">
+    <div class="tcard"><span class="label">In exchange</span><h3>Ecstatic Waves · private room</h3><p>Jan 22–31, 2027 in Oaxaca, as a participant. Listed at $3,100.</p></div>
+    <div class="tcard"><span class="label">In exchange</span><h3>Sponsor credit</h3><p>Kyra's name on the site, posters, flyers and festival materials.</p></div>
+  </div>
+</div></section>
+
+<section id="deal"><div class="wrap">
+  <div class="deal">
+    <h2>The deal</h2>
+    <div class="cols">
+      <div><h3>Kyra delivers</h3><ul><li>New website, live Feb 1</li><li>Brand 2.0 kit, all 30 assets</li><li>Festival admin system</li><li>Voice editing for Wryn and Kyra</li></ul></div>
+      <div><h3>Kyra receives</h3><ul><li>Private room at Ecstatic Waves, Jan 22–31</li><li>Sponsor credit across Trancendance 2027</li></ul></div>
+    </div>
+    <div class="close"><p>One private room is left. Saying yes holds it.</p><span class="pill">Reply to Kyra to begin</span></div>
+  </div>
+</div></section>
+</main>
+
+<footer><img class="klogo light" src="img/kyra-logo.png" alt="Kyra Aulani"><img class="klogo dark" src="img/kyra-logo-cream.png" alt="Kyra Aulani"></footer>
+
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Asset detail"><div class="box"><img id="lb-img" alt=""><div class="txt"><button class="x" id="lb-x" aria-label="Close">×</button><h3 id="lb-t"></h3><p id="lb-m"></p></div></div></div>
+
+<script>
+// Theme
+(() => {
+  const root = document.documentElement, btn = document.getElementById('theme');
+  let saved = null; try { saved = localStorage.getItem('tp-theme'); } catch (e) {}
+  if (saved) root.dataset.theme = saved;
+  btn.addEventListener('click', () => {
+    const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme = dark ? 'light' : 'dark';
+    try { localStorage.setItem('tp-theme', root.dataset.theme); } catch (e) {}
+  });
+})();
+
+// Deliverable tabs
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected', x === t));
+  document.querySelectorAll('.panel').forEach(p => p.hidden = p.id !== 'p-' + t.dataset.p);
+}));
+document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  document.getElementById('v-now').hidden = b.dataset.v !== 'now';
+  document.getElementById('v-new').hidden = b.dataset.v !== 'new';
+}));
+
+// Brand kit
+const KIT = [
+ ['01-logo','Identity','Primary logo','A 2.0 lockup in four versions: colour, gold, dark-ground and white.'],
+ ['02-wordmark','Identity','Wordmark','A horizontal wordmark for tight spaces.'],
+ ['03-lotus','Identity','Lotus icon','The mark on its own, for small sizes and merch.'],
+ ['04-favicon','Identity','Browser icon','Today the tab shows a partner\'s mark. This becomes the lotus.'],
+ ['05-type','Identity','Typography','A licensed type pair: a capitals serif and a script.'],
+ ['06-texture','Identity','Texture','Background textures in the new palette.'],
+ ['07-palette','Identity','Colour palette','Named colours, with one per pass type.'],
+ ['08-keyart','Campaign','Hero key art','A new 2.0 illustration, with and without text.'],
+ ['09-share','Campaign','Share image','The link preview, updated with 2027 dates.'],
+ ['10-hero','Campaign','Site hero banner','Desktop and mobile versions with dates and Get Tickets.'],
+ ['11-icons','Campaign','Offering icons','Five icons as separate files, so they can be reused.'],
+ ['12-poster','Campaign','Festival poster','Print and social sizes with 2027 dates.'],
+ ['13-tickettailor','Campaign','Box office page','Banner, logo and colours on Ticket Tailor.'],
+ ['14-alcoholfree','Campaign','Alcohol-free badge','The badge, redrawn in 2.0 style.'],
+ ['15-nav','Website UI','Navigation','The logo plus a Get Tickets button.'],
+ ['16-button','Website UI','Buttons','Primary and secondary styles.'],
+ ['17-stamp','Website UI','Status stamps','Early Bird, Few Left, Price Rises Soon, Sold Out.'],
+ ['18-passband','Website UI','Pass cards','One card per pass: price, tier and status.'],
+ ['19-ornaments','Website UI','Ornaments','Dividers, frames and leaves in 2.0 style.'],
+ ['20-footer','Website UI','Footer','The 2.0 wordmark and 2027 partners.'],
+ ['21-headline','Website UI','Headline style','The capitals-plus-script title treatment.'],
+ ['22-card','Program','Presenter card','One editable template for every artist.'],
+ ['23-wave','Program','Wave announcement','A grid post and story for each lineup wave.'],
+ ['24-feature','Program','Feature card','A spotlight for one or two artists.'],
+ ['25-daily','Program','Daily schedules','Friday to Sunday posters, also on the site as text.'],
+ ['26-thursday','Program','Thursday poster','A new early-arrival theme for 2027.'],
+ ['27-kids','Program','Kids schedule','The kids and teen-lounge poster.'],
+ ['28-kbyg','Program','Know Before You Go','Arrival, packing and agreements.'],
+ ['29-eclipse','Program','Special program','The section graphic for the headline special program.'],
+ ['30-map','Program','Venue map','The same land in 2.0 style, updated for 2027.'],
+];
+const kitEl = document.getElementById('kit'), chipsEl = document.getElementById('chips');
+['All','Identity','Campaign','Website UI','Program'].forEach((g, i) => {
+  const c = document.createElement('button'); c.className = 'chip'; c.textContent = g; c.setAttribute('aria-pressed', i === 0);
+  c.onclick = () => { chipsEl.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', x === c)); drawKit(g); };
+  chipsEl.appendChild(c);
+});
+function drawKit(g) {
+  kitEl.innerHTML = '';
+  KIT.forEach(([f, grp, t, m], i) => {
+    if (g !== 'All' && grp !== g) return;
+    const b = document.createElement('button');
+    b.innerHTML = `<img src="img/kit/${f}.jpg" alt="${t}, as it looks in 2026" loading="lazy"><span><i>${i + 1}</i>${t}</span>`;
+    b.onclick = () => openLb(f, `${i + 1}. ${t}`, m);
+    kitEl.appendChild(b);
+  });
+}
+drawKit('All');
+const lb = document.getElementById('lb');
+function openLb(f, t, m) { document.getElementById('lb-img').src = `img/kit/${f}.jpg`; document.getElementById('lb-img').alt = t; document.getElementById('lb-t').textContent = t; document.getElementById('lb-m').textContent = 'For 2.0: ' + m; lb.hidden = false; document.getElementById('lb-x').focus(); }
+function closeLb() { lb.hidden = true; }
+document.getElementById('lb-x').onclick = closeLb;
+lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+
+// Timeline
+const START = Date.parse('2026-11-16'), END = Date.parse('2027-02-03');
+const pct = d => ((Date.parse(d) - START) / (END - START) * 100).toFixed(2) + '%';
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmt = d => { const x = new Date(d + 'T12:00:00'); return MON[x.getMonth()] + ' ' + x.getDate(); };
+const PHASES = [
+ { id:'decide', name:'Lock dates & prices', who:'wryn', start:'2026-11-16', end:'2026-11-25', items:['2027 dates','Pass tiers','Prices'] },
+ { id:'brand', name:'Brand 2.0 foundation', start:'2026-11-16', end:'2026-12-04', c:'--s1', items:['Logo','Wordmark','Lotus icon','Type','Palette','Texture'], note:'Sign-off Dec 4' },
+ { id:'ui', name:'Website UI kit', start:'2026-11-30', end:'2026-12-11', c:'--s2', items:['Nav','Buttons','Stamps','Pass cards','Ornaments','Headlines','Browser icon'] },
+ { id:'art', name:'Key art & campaign', start:'2026-12-07', end:'2027-01-15', c:'--s3', items:['Hero art','Offering icons','Share image','Hero banner','Footer','Poster','Ticket Tailor'] },
+ { id:'ops', name:'Admin system', start:'2026-12-14', end:'2027-01-08', c:'--s5', items:['Artist database','One-tap contracts','Rate card','Artist emails'], note:'Ready before first-wave contracts' },
+ { id:'site', name:'Website + SEO', start:'2026-12-14', end:'2027-01-20', c:'--s4', items:['8 pages','Facilitator pages','Google event listings','Checkout on site','QA'] },
+ { id:'program', name:'Program templates', start:'2027-01-04', end:'2027-01-19', c:'--s6', items:['Presenter card','Wave posts','Schedule posters','Know Before You Go','Map'] },
+ { id:'voice', name:'Voice editing', start:'2027-01-11', end:'2027-01-20', c:'--s7', items:['GitHub + previews','Rules file','Test with Wryn'] },
+ { id:'launch', name:'Marketing launch', start:'2027-02-01', end:'2027-02-01', items:['Site live','Early-bird sales open','Launch emails and posts, pre-scheduled'], milestone:true },
+];
+const ticks = document.getElementById('ticks');
+['2026-11-16','2026-11-30','2026-12-14','2026-12-28','2027-01-11','2027-01-25'].forEach(d => { const s = document.createElement('span'); s.style.left = pct(d); s.textContent = fmt(d); ticks.appendChild(s); });
+const bands = document.getElementById('bands');
+bands.innerHTML = `<div class="hol" style="left:${pct('2026-12-21')};width:calc(${pct('2027-01-04')} - ${pct('2026-12-21')})"></div>
+ <div class="ret" style="left:${pct('2027-01-22')};width:calc(${pct('2027-02-01')} - ${pct('2027-01-22')})"></div>
+ <div class="launch" style="left:${pct('2027-02-01')}"></div>`;
+const body = document.getElementById('tlbody'), detail = document.getElementById('detail');
+function show(p, btn) {
+  body.querySelectorAll('[aria-pressed]').forEach(b => b.setAttribute('aria-pressed', b === btn));
+  const when = p.milestone ? fmt(p.start) : `${fmt(p.start)} – ${fmt(p.end)}`;
+  detail.innerHTML = `<div class="when">${p.name}<span>${when}${p.note ? ' · ' + p.note : ''}</span></div><ul>${p.items.map(i => `<li>${i}</li>`).join('')}</ul>`;
+}
+PHASES.forEach((p, i) => {
+  const row = document.createElement('div'); row.className = 'tl-row';
+  row.innerHTML = `<div class="nm">${p.name}<small>${p.milestone ? fmt(p.start) : fmt(p.start) + ' – ' + fmt(p.end)}</small></div><div class="track"></div>`;
+  const track = row.querySelector('.track'), b = document.createElement('button');
+  if (p.milestone) { b.className = 'flag'; b.style.left = pct(p.start); }
+  else {
+    b.className = 'bar' + (p.who === 'wryn' ? ' wryn' : '');
+    b.style.left = pct(p.start); b.style.width = `calc(${pct(p.end)} - ${pct(p.start)} + 0.9%)`;
+    if (p.c) b.style.background = `var(${p.c})`;
+  }
+  b.setAttribute('aria-label', p.name); b.setAttribute('aria-pressed', 'false');
+  b.onclick = () => show(p, b); b.onmouseenter = () => show(p, b);
+  track.appendChild(b); body.appendChild(row);
+  if (i === 1) show(p, b);
+});
+
+// Value
+const VALUE = [
+ ['Website rebuild', 7500, '--s4'], ['Campaign & UI kit', 3500, '--s3'], ['Admin system', 3500, '--s5'], ['Brand 2.0', 3000, '--s1'],
+ ['Program templates', 2500, '--s6'], ['Discovery', 1500, '--s2'], ['Voice editing', 1000, '--s7'],
+];
+const total = VALUE.reduce((a, v) => a + v[1], 0), stack = document.getElementById('stack'), vrows = document.getElementById('vrows');
+VALUE.forEach(([n, v, c], i) => {
+  const s = document.createElement('button'); s.style.flex = v; s.style.background = `var(${c})`; s.setAttribute('aria-label', `${n}: $${v.toLocaleString()}`); s.setAttribute('aria-pressed', 'false');
+  const r = document.createElement('div'); r.className = 'vrow'; r.innerHTML = `<i style="background:var(${c})"></i><span>${n}</span><b>$${v.toLocaleString()}</b>`;
+  const on = () => { stack.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === s)); vrows.querySelectorAll('.vrow').forEach(x => x.classList.toggle('on', x === r)); };
+  s.onmouseenter = s.onclick = on; r.onmouseenter = on;
+  stack.appendChild(s); vrows.appendChild(r);
+});
+</script>
+</body>
+</html>
